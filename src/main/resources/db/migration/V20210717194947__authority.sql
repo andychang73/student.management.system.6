@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS authority(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主鍵',
-    `authority` VARCHAR(45) NOT NULL COMMENT '權限',
-    `description` VARCHAR(64) NULL COMMENT '權限說明',
-    `create_time` DATETIME NOT NULL COMMENT '創建時間',
-    `update_time` DATETIME NOT NULL COMMENT '更新時間',
-    PRIMARY KEY(id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='權限';
