@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS role_authority(
      `authority_id` INT UNSIGNED NOT NULL COMMENT '權限id',
      `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
      `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-     PRIMARY KEY(id)
+     PRIMARY KEY(id),
+     UNIQUE KEY `index_unique`(role_id, authority_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='角色權限';
 
 CREATE TABLE IF NOT EXISTS authority(
@@ -101,7 +102,8 @@ CREATE TABLE IF NOT EXISTS major_course(
     `creator` VARCHAR(45) NOT NULL COMMENT '創建人員',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(major_id, course_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='學院主修課程';
 
 CREATE TABLE IF NOT EXISTS course(
@@ -124,7 +126,8 @@ CREATE TABLE IF NOT EXISTS pre_course(
     `creator` VARCHAR(45) NOT NULL COMMENT '創建人員',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(course_id, pre_course_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='先修課程';
 
 CREATE TABLE IF NOT EXISTS class(
@@ -132,34 +135,35 @@ CREATE TABLE IF NOT EXISTS class(
     `course_id` INT UNSIGNED NOT NULL COMMENT '課程id',
     `teacher_id` INT UNSIGNED NOT NULL COMMENT '老師id',
     `week_day` INT NOT NULL COMMENT '每週上課時間',
-    `date` DATETIME NOT NULL COMMENT '開課日期',
-    `start_time` DATETIME NOT NULL COMMENT '上課開始時間',
-    `end_time` DATETIME NOT NULL COMMENT '上課結束時間',
+    `start_time` TIME NOT NULL COMMENT '上課開始時間',
+    `end_time` TIME NOT NULL COMMENT '上課結束時間',
     `maximum` INT DEFAULT NULL COMMENT '最大上課人數限制',
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
-    `version` INT DEFAULT NULL COMMENT '課程難度級數',
+    `version` INT DEFAULT 0 COMMENT '課程難度級數',
     `creator` VARCHAR(45) NOT NULL COMMENT '創建人員',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(course_id, teacher_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='班級';
 
 CREATE TABLE IF NOT EXISTS semester_class(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主鍵',
     `semaster_id` INT UNSIGNED NOT NULL COMMENT '學期id',
     `class_id` INT UNSIGNED NOT NULL COMMENT '班級id',
-    `week_no` INT NOT NULL COMMENT '每週時間',
+    `week_no` INT NOT NULL COMMENT '當前週數',
     `date` DATETIME NOT NULL COMMENT '開課日期',
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(semaster_id, class_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='學期班級';
 
 CREATE TABLE IF NOT EXISTS semester(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主鍵',
     `year` INT NOT NULL COMMENT '年度',
     `semester` INT NOT NULL COMMENT '學期',
-    `start_time` DATETIME NOT NULL COMMENT '上課開始時間',
-    `end_time` DATETIME NOT NULL COMMENT '上課結束時間',
+    `start_time` DATE NOT NULL COMMENT '上課開始時間',
+    `end_time` DATE NOT NULL COMMENT '上課結束時間',
     `num_of_weeks` INT NOT NULL COMMENT '上課週數',
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
     `creator` VARCHAR(45) NOT NULL COMMENT '創建人員',
@@ -178,7 +182,8 @@ CREATE TABLE IF NOT EXISTS assesment(
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(semester_id, staff_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='學期評估';
 
 CREATE TABLE IF NOT EXISTS student_class(
@@ -188,7 +193,8 @@ CREATE TABLE IF NOT EXISTS student_class(
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(student_id, class_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='學生班級';
 
 CREATE TABLE IF NOT EXISTS student_major(
@@ -198,7 +204,8 @@ CREATE TABLE IF NOT EXISTS student_major(
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(student_id, major_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='學院學生';
 
 CREATE TABLE IF NOT EXISTS student_course(
@@ -219,10 +226,11 @@ CREATE TABLE IF NOT EXISTS attendance(
     `semester_class_id` INT UNSIGNED NOT NULL COMMENT '學期班級id',
     `student_id` INT UNSIGNED NOT NULL COMMENT '學生id',
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 未出席 / 1 出席',
-    `taken_by` VARCHAR(45) NOT NULL COMMENT '',
+    `taken_by` VARCHAR(45) NOT NULL COMMENT '更新人員',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(semester_class_id, student_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='出席率';
 
 CREATE TABLE IF NOT EXISTS homework(
@@ -233,7 +241,8 @@ CREATE TABLE IF NOT EXISTS homework(
     `status` TINYINT(1) DEFAULT 1 COMMENT '0 停用 / 1 正常',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(semester_class_id, id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='作業';
 
 CREATE TABLE IF NOT EXISTS student_homework(
@@ -244,5 +253,6 @@ CREATE TABLE IF NOT EXISTS student_homework(
     `grade` FLOAT(2,0) NOT NULL COMMENT '成績',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
     `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE KEY `index_unique`(homework_id, student_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT ='學生作業';
