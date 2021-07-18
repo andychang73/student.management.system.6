@@ -3,6 +3,9 @@ package com.abstractionizer.studentInformationSystem6.enums;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode implements BaseError{
+
+    INVALID_METHOD_ARGUMENT(HttpStatus.BAD_REQUEST, "10000", "Invalid method arguments"),
+    INVALID_HEADERS(HttpStatus.BAD_REQUEST, "10001", "Missing servlet request part")
     ;
 
     private final HttpStatus httpStatus;
