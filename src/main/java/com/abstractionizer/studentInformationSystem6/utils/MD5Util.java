@@ -8,13 +8,13 @@ import java.security.MessageDigest;
 @Slf4j
 public class MD5Util {
 
-    public String md5(String s){
-        char[] hexDigits = new char[]{'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+    public static String md5(String s){
+        char[] hexDigits = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
         StringBuilder sb = new StringBuilder();
 
         try{
             MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.digest(s.getBytes(StandardCharsets.UTF_8));
+            digest.update(s.getBytes(StandardCharsets.UTF_8));
             byte[] bytes = digest.digest();
 
             for(byte b : bytes){

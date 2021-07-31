@@ -4,6 +4,9 @@ spring:
     username: root
     password: admin1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    servlet:
+      path: /api
 
 mybatis-plus:
   configuration:
@@ -18,3 +21,4 @@ redis:
     minIdle: 0
     maxActive: -1
     maxWait: 30000
+

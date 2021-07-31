@@ -1,0 +1,4 @@
+exclude:
+  path:
+    - "/api/staff/login"
+    - "/api/staff/firstTimeChangePassword"

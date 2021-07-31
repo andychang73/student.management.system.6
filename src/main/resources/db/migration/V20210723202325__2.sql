@@ -1,0 +1,1 @@
+ALTER TABLE user_role DROP COLUMN group_id;

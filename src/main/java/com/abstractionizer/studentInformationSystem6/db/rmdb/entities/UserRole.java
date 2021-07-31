@@ -24,8 +24,6 @@ public class UserRole {
 
     private Integer roleId;
 
-    private Integer groupId;
-
     private Integer status;
 
     private Date createTime;

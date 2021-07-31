@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 
 @TableName("student")
-public class Student extends BaseUser{
+public class Student extends User {
 
     public Student(){}
 
