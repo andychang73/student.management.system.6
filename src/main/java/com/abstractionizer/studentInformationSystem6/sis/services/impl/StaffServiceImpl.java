@@ -24,6 +24,15 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    public Staff create(Staff staff) {
+        if(staffMapper.insert(staff) != 1){
+            log.error("Create staff failed: {}", staff);
+            throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
+        }
+        return staff;
+    }
+
+    @Override
     public boolean isStaffExists(Integer id) {
         return staffMapper.countByStaffId(id) > 0;
     }

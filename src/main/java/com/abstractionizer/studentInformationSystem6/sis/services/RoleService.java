@@ -2,9 +2,11 @@ package com.abstractionizer.studentInformationSystem6.sis.services;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Role;
 
+import java.util.Set;
+
 public interface RoleService {
 
-    boolean isRoleExists(Integer roleId);
+    boolean areRoleIdsExist(Set<Integer> roleIds);
 
     boolean isRoleExists(String role);
 

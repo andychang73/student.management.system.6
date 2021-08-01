@@ -2,6 +2,8 @@ package com.abstractionizer.studentInformationSystem6.sis.services.impl;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.RoleAuthority;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.RoleAuthorityMapper;
+import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
+import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.sis.services.RoleAuthorityService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -31,6 +33,9 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         if(roleAuthorities.isEmpty()){
             return;
         }
-//        roleAuthorityMapper.
+        if(roleAuthorityMapper.insertBatch(roleAuthorities) != roleAuthorities.size()){
+            log.error("Insert role authorities failed, role authorities: {}", roleAuthorities);
+            throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
+        }
     }
 }

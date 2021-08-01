@@ -2,4 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.CollegeMapper">
 
+    <select id="countByIdOrCollege" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM college
+        <where>
+            <if test="id != null and id != 0">
+                id = #{id}
+            </if>
+            <if test="college != null and college != ''">
+                college = #{college}
+            </if>
+        </where>
+    </select>
 </mapper>

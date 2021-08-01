@@ -53,22 +53,16 @@ public class User {
         this.creator = creator;
     }
 
-    public User(String password, String username, Date birthday, String email, String phone, String address, String creator, Set<GrantedAuthority> authorities) {
-        this.password = password;
-        this.username = username;
-        this.birthday = birthday;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.creator = creator;
-        this.authorities = authorities;
-    }
-
-    protected static String generateDefaultPassword(Date birthday){
-        StringBuilder sb = new StringBuilder();
-        List.of(new SimpleDateFormat("yyyy-MM-dd").format(birthday).split("-")).forEach(sb::append);
-        return sb.toString();
-    }
+//    public User(String password, String username, Date birthday, String email, String phone, String address, String creator, Set<GrantedAuthority> authorities) {
+//        this.password = password;
+//        this.username = username;
+//        this.birthday = birthday;
+//        this.email = email;
+//        this.phone = phone;
+//        this.address = address;
+//        this.creator = creator;
+//        this.authorities = authorities;
+//    }
 
     public static void main(String[] args) {
         System.out.println(MD5Util.md5("19110101"));

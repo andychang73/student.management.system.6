@@ -1,19 +1,21 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses;
 
-import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Staff;
-import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Student;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.User;
 import com.abstractionizer.studentInformationSystem6.enums.AccountStatus;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
-import com.abstractionizer.studentInformationSystem6.enums.UserGroup;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserLoginDto;
 import com.abstractionizer.studentInformationSystem6.sis.services.LoginService;
 import com.abstractionizer.studentInformationSystem6.utils.MD5Util;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import static com.abstractionizer.studentInformationSystem6.constants.RedisConstant.*;
@@ -24,7 +26,7 @@ public class UserBusiness<T extends User> {
 
     protected final LoginService loginService;
 
-    protected UserLoginDto validateCredentials(String enteredPassword, T user, Consumer<Integer> freezeAccount, String userLoggedInKey){
+    protected UserLoginDto authenticate(String enteredPassword, T user, Consumer<Integer> freezeAccount, String userLoggedInKey){
         if(!loginService.authenticate(enteredPassword.trim(), user.getPassword())){
             long loginFailedCount = loginService.loginFailedCount(getStaffLoginFailureCountKey(user.getId()));
             long loginAttemptLimit = 3;
@@ -82,5 +84,11 @@ public class UserBusiness<T extends User> {
     protected void logout(String token, String key){
         loginService.deleteUserInfoByToken(token);
         loginService.deleteUserLoginId(key);
+    }
+
+    protected String generateDefaultPassword(@NonNull final Date birthday){
+        StringBuilder sb = new StringBuilder();
+        List.of(new SimpleDateFormat("yyyy-MM-dd").format(birthday).split("-")).forEach(sb::append);
+        return sb.toString();
     }
 }

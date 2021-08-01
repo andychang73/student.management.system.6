@@ -6,9 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 @Mapper
 @Repository
 public interface RoleMapper extends BaseMapper<Role> {
 
-    int countByRoleIdOrRole(@Param("id") Integer id, @Param("role") String role);
+    int countByRoleIdOrRole(@Param("ids") Set<Integer> ids, @Param("role") String role);
 }

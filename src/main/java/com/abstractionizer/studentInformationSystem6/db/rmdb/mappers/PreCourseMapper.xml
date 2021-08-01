@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.PreCourseMapper">
 
+    <insert id="insertBatch">
+        INSERT INTO pre_course(id, course_id, pre_course_id, creator)
+        VALUES
+            <foreach collection="pre_courses" item="item" separator=",">
+                (#{item.id}, #{item.courseId}, #{item.preCourseId}, #{item.creator})
+            </foreach>
+    </insert>
 </mapper>

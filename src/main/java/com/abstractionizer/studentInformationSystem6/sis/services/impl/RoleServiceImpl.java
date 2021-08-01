@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -17,8 +19,8 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
 
     @Override
-    public boolean isRoleExists(Integer roleId) {
-        return roleMapper.countByRoleIdOrRole(roleId, null) > 0;
+    public boolean areRoleIdsExist(Set<Integer> roleId) {
+        return roleMapper.countByRoleIdOrRole(roleId, null) == roleId.size();
     }
 
     @Override

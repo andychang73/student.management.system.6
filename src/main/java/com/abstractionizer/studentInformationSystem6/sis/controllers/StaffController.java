@@ -1,15 +1,13 @@
 package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
-import com.abstractionizer.studentInformationSystem6.models.bo.user.ChangePasswordBo;
-import com.abstractionizer.studentInformationSystem6.models.bo.user.FirstTimeChangePasswordBo;
-import com.abstractionizer.studentInformationSystem6.models.bo.user.UpdateUserInfo;
-import com.abstractionizer.studentInformationSystem6.models.bo.user.UserLoginBo;
+import com.abstractionizer.studentInformationSystem6.models.bo.user.*;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.user.SuccessfulLoginVo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StaffBusiness;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -20,6 +18,14 @@ import javax.validation.Valid;
 public class StaffController {
 
     private final StaffBusiness staffBusiness;
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping
+    public SuccessResponse createStaff(@RequestAttribute("Staff") UserInfo userInfo,
+                                       @RequestBody @Valid CreateStaffBo bo){
+        staffBusiness.createStaff(userInfo.getUsername(), bo);
+        return new SuccessResponse();
+    }
 
     @PostMapping("/login")
     public SuccessResponse<SuccessfulLoginVo> login(@RequestBody @Valid UserLoginBo bo){

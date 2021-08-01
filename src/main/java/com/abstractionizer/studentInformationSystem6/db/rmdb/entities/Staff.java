@@ -24,8 +24,8 @@ public class Staff extends User {
         super(id, email, phone, address);
     }
 
-    public Staff(String password, String username, Date birthday, String email, String phone, String address, String creator, Integer reportTo, Set<GrantedAuthority> authorities){
-        super(password, username, birthday, email, phone, address, creator, authorities);
+    public Staff(String password, String username, Date birthday, String email, String phone, String address, Integer reportTo, String creator){
+        super(password, username, birthday, email, phone, address, creator);
         this.reportTo = reportTo;
     }
 }

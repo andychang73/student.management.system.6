@@ -5,9 +5,9 @@
     <select id="countByAuthorityIds" resultType="java.lang.Integer">
         SELECT COUNT(id)
         FROM authority
-        WHERE
+        WHERE id IN
             <foreach collection="ids" item="item" open="(" separator="," close=")">
-                {#item}
+                #{item}
             </foreach>
     </select>
 </mapper>

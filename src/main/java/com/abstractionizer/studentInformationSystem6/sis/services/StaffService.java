@@ -9,6 +9,8 @@ public interface StaffService {
 
     Optional<Staff> getStaff(Integer id);
 
+    Staff create(Staff staff);
+
     boolean isStaffExists(Integer id);
 
     void freezeAccount(Integer userId);

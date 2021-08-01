@@ -22,7 +22,7 @@
 
 
     <select id="selectByStaffId" resultMap="Staff">
-        SELECT s.id, s.password, s.username, s.birthday, s.email, s.phone, s.address, s.first_time_login, s.status, CONCAT(GROUP_CONCAT(DISTINCT r.role), ',', GROUP_CONCAT(a.authority)) AS authorities
+        SELECT s.id, s.password, s.username, s.birthday, s.email, s.phone, s.address, s.report_to, s.first_time_login, s.status, CONCAT(GROUP_CONCAT(DISTINCT r.role), ',', GROUP_CONCAT(a.authority)) AS authorities
         FROM staff s
         JOIN user_role ur ON ur.user_id = s.id
         JOIN role r ON r.id = ur.role_id

@@ -6,12 +6,17 @@
         SELECT COUNT(id)
         FROM role
         <where>
-            <if test="id != null and id > 0">
-                AND id = #{id}
-            </if>
-            <if test="role != null and role != ''">
-                AND role = #{role}
-            </if>
+            <choose>
+                <when test="ids != null">
+                    id IN
+                    <foreach collection="ids" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <when test="role != null and role != ''">
+                    role = #{role}
+                </when>
+            </choose>
         </where>
     </select>
 </mapper>

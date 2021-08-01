@@ -13,6 +13,7 @@ public enum ErrorCode implements BaseError{
     USER_FIRST_LOGIN(HttpStatus.INTERNAL_SERVER_ERROR, "10012", "This is your first login, please change the password"),
     USER_NOT_FIRST_LOGIN(HttpStatus.INTERNAL_SERVER_ERROR, "10013", "This is not your first login"),
     USER_NON_EXISTS(HttpStatus.BAD_REQUEST, "10014", "User not found"),
+    USER_ROLE_UNMATCHED(HttpStatus.BAD_REQUEST, "10015", "User does not match role"),
 
     DATA_INSERT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "10000", "Data insert failed"),
     DATA_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "10001", "Data update failed"),
@@ -24,7 +25,18 @@ public enum ErrorCode implements BaseError{
     ROLE_AUTHORITY_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "10101", "Authorities has been bound to this role"),
     ROLE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "10102", "This role does not exist"),
 
-    AUTHORITY_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "10200", "Authority not found")
+    AUTHORITY_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "10200", "Authority not found"),
+
+    COLLEGE_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "10050", "Failed to create college"),
+    COLLEGE_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "10051", "College already exists"),
+    COLLEGE_NON_EXISTS(HttpStatus.BAD_REQUEST, "10052", "College does not exists"),
+
+    MAJOR_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "10060", "Major already exist"),
+    MAJOR_NON_EXISTS(HttpStatus.BAD_REQUEST, "10061", "Major does not exists"),
+
+    COURSE_EXISTS(HttpStatus.BAD_REQUEST, "10070", "Course already exists"),
+    COURSE_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "10071", "Failed to create course"),
+    COURSE_NON_EXISTS(HttpStatus.BAD_REQUEST, "10071", "Course doesn't exists"),
     ;
 
     private final HttpStatus httpStatus;

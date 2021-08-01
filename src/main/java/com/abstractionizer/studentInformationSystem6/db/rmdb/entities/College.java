@@ -24,6 +24,8 @@ public class College {
 
     private Integer status;
 
+    private String creator;
+
     private Date createTime;
 
     private Date updateTime;

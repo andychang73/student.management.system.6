@@ -20,11 +20,15 @@ public class StudentCourse {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private Integer semetserId;
+    private Integer semesterId;
 
     private Integer studentId;
 
     private Integer courseId;
+
+    private Integer numOfPreCourses;
+
+    private Integer numOfCompletedPreCourses;
 
     private Float grade;
 

@@ -3,6 +3,7 @@ package com.abstractionizer.studentInformationSystem6.handlers;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.responses.ErrorResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse<>(ex.getCode(), ex.getMsg(), ex.getDetails()), ex.getHttpStatus());
     }
 
+    @NotNull
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = new ArrayList<>();
@@ -39,11 +41,13 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse<>(ErrorCode.INVALID_METHOD_ARGUMENT, errors), status);
     }
 
+    @NotNull
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return new ResponseEntity<>(new ErrorResponse<>(ErrorCode.INVALID_HEADERS, ex.getMessage()), status);
     }
 
+    @NotNull
     @Override
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return new ResponseEntity<>(new ErrorResponse<>(ErrorCode.INVALID_HEADERS, ex.getMessage()), headers, status);
