@@ -4,11 +4,15 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Course;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.CourseMapper;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
+import com.abstractionizer.studentInformationSystem6.models.dto.course.PreCourseCountDto;
+import com.abstractionizer.studentInformationSystem6.models.vo.course.CourseVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.CourseService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -19,7 +23,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Override
-    public Course create(Course course) {
+    public Course create(@NonNull final Course course) {
         if(courseMapper.insert(course) != 1){
             log.error("Create course failed: {}", course);
             throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
@@ -28,12 +32,20 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean isCourseExists(String course) {
+    public List<CourseVo> getAllCourses() {
+        return courseMapper.getAllCourses();
+    }
+
+    @Override
+    public boolean isCourseExists(@NonNull final String course) {
         return courseMapper.countByCourseIdsOrCourse(null, course) > 0;
     }
 
     @Override
-    public boolean areCourseIdsExist(Set<Integer> courseIds) {
+    public boolean areCourseIdsExist(@NonNull final Set<Integer> courseIds) {
+        if(courseIds.isEmpty()){
+            return false;
+        }
         return courseMapper.countByCourseIdsOrCourse(courseIds, null) == courseIds.size();
     }
 }

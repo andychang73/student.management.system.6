@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentMapper">
 
+    <select id="countByStudentIds" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM student
+        WHERE id IN
+            <foreach collection="student_ids" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </select>
 </mapper>

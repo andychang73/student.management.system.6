@@ -6,6 +6,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.enums.UserRole;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.course.CreateCourseBo;
+import com.abstractionizer.studentInformationSystem6.models.vo.course.CourseVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.CourseBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.CourseService;
 import com.abstractionizer.studentInformationSystem6.sis.services.PreCourseService;
@@ -51,6 +52,11 @@ public class CourseBusinessImpl implements CourseBusiness {
         }
 
         preCourseService.create(generatePreCourses(course.getId(), bo.getPreCourses(), creator));
+    }
+
+    @Override
+    public List<CourseVo> getAllCourses() {
+        return courseService.getAllCourses();
     }
 
     private Set<PreCourse> generatePreCourses(Integer courseId, Set<Integer> preCourseIds, String creator){

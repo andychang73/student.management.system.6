@@ -17,4 +17,26 @@
             </if>
         </where>
     </select>
+    <select id="getAllMajors"
+            resultType="com.abstractionizer.studentInformationSystem6.models.vo.major.MajorVo">
+        SELECT id, major
+        FROM major
+    </select>
+
+    <resultMap id="preCourseCount" type="com.abstractionizer.studentInformationSystem6.models.dto.course.PreCourseCountDto">
+        <id column="id" property="courseId"/>
+        <result column="num_of_pre_course" property="numOfPreCourse"/>
+    </resultMap>
+
+    <select id="getNumOfPreCourse" resultMap="preCourseCount">
+        SELECT x.id, COUNT(pc.pre_course_id) as num_of_pre_course
+        FROM (SELECT c.id
+              FROM major m
+              JOIN major_course mc ON mc.major_id = m.id
+              JOIN course c ON c.id = mc.course_id
+              WHERE m.id = #{id}
+             ) as x
+        LEFT JOIN pre_course pc ON pc.course_id = x.id
+        GROUP BY x.id
+    </select>
 </mapper>

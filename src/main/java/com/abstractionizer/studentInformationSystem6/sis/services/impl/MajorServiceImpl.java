@@ -4,12 +4,15 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Major;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.MajorMapper;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
+import com.abstractionizer.studentInformationSystem6.models.dto.course.PreCourseCountDto;
+import com.abstractionizer.studentInformationSystem6.models.vo.major.MajorVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.MajorService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -20,12 +23,17 @@ public class MajorServiceImpl implements MajorService {
     private final MajorMapper majorMapper;
 
     @Override
-    public Major create(Major major) {
+    public Major create(@NonNull final Major major) {
         if(majorMapper.insert(major) != 1){
             log.error("Create major failed: {}", major);
             throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
         }
         return major;
+    }
+
+    @Override
+    public List<MajorVo> getAllMajors() {
+        return majorMapper.getAllMajors();
     }
 
     @Override
@@ -39,5 +47,10 @@ public class MajorServiceImpl implements MajorService {
             return false;
         }
         return majorMapper.countByMajorIdOrMajor(majorIds, null) == majorIds.size();
+    }
+
+    @Override
+    public List<PreCourseCountDto> getPreCourseCount(@NonNull final Integer majorId) {
+        return majorMapper.getNumOfPreCourse(majorId);
     }
 }

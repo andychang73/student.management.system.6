@@ -26,9 +26,9 @@ public class StudentCourse {
 
     private Integer courseId;
 
-    private Integer numOfPreCourses;
+    private Integer numOfPreCourse;
 
-    private Integer numOfCompletedPreCourses;
+    private Integer numOfCompletedPreCourse;
 
     private Float grade;
 

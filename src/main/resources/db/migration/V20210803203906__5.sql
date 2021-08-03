@@ -1,0 +1,2 @@
+ALTER TABLE student_course ADD COLUMN num_of_pre_course INT UNSIGNED NOT NULL AFTER course_id;
+ALTER TABLE student_course ADD COLUMN num_of_completed_pre_course INT UNSIGNED DEFAULT 0 AFTER num_of_pre_course;

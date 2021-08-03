@@ -29,7 +29,4 @@ public class CreateStudentBo {
 
     @NotEmpty(message = "cannot be null nor empty")
     protected String address;
-
-    @NotEmpty(message = "cannot be null nor empty")
-    protected Set<Integer> roleIds;
 }

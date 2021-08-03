@@ -1,9 +1,11 @@
 package com.abstractionizer.studentInformationSystem6.db.rmdb.entities;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
+@Accessors(chain = true)
 @TableName("student")
 public class Student extends User {
 

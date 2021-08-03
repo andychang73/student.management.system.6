@@ -8,15 +8,21 @@
         <where>
             <choose>
                 <when test="course_ids != null">
-                    id IN
+                    status = 1 AND id IN
                     <foreach collection="course_ids" item="item" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </when>
                 <when test="course != null and course != ''">
-                    course = #{course}
+                    status = 1 AND course = #{course}
                 </when>
             </choose>
         </where>
     </select>
+    <select id="getAllCourses"
+            resultType="com.abstractionizer.studentInformationSystem6.models.vo.course.CourseVo">
+        SELECt id, course
+        FROM course
+    </select>
+
 </mapper>
