@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.SemesterClassMapper">
 
+    <insert id="insertBatch">
+        INSERT INTO semester_class(id, class_id, week_no, date)
+        VALUES
+            <foreach collection="classes" item="item" separator=",">
+                (#{item.id}, #{item.classId},#{item.weekNo}, #{item.date})
+            </foreach>
+    </insert>
 </mapper>

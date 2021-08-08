@@ -24,6 +24,10 @@ public class StudentClass {
 
     private Integer classId;
 
+    private Float homeworkAverageGrade;
+
+    private Float attendance;
+
     private Integer status;
 
     private Date createTime;

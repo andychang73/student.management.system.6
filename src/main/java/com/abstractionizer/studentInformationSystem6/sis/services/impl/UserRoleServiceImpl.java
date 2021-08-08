@@ -24,6 +24,11 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
+    public boolean isUserMatchingRole(Integer userId, Integer roleId) {
+        return userRoleMapper.countByUserIdAndRoleIds(userId, Set.of(roleId)) > 0;
+    }
+
+    @Override
     public void create(Set<UserRole> userRoles) {
         if(userRoles.isEmpty()){
             return;

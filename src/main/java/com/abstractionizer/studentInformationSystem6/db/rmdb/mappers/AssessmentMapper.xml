@@ -2,4 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.AssessmentMapper">
 
+    <resultMap id="AssessmentVo" type="com.abstractionizer.studentInformationSystem6.models.vo.assessment.AssessmentVo">
+        <id column="staff_id" property="staffId" jdbcType="INTEGER"/>
+        <result column="teacher_name" property="teacherName" jdbcType="VARCHAR"/>
+        <collection property="assessments" ofType="com.abstractionizer.studentInformationSystem6.models.dto.assessment.AssessmentDto">
+            <result column="year" property="year" jdbcType="INTEGER"/>
+            <result column="semester" property="semester" jdbcType="INTEGER"/>
+            <result column="result" property="result" jdbcType="FLOAT"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByStaffId" resultMap="AssessmentVo">
+        SELECT a.staff_id, st.username AS teacher_name, s.year, s.semester, a.result
+        FROM assessment a
+        JOIN semester s ON s.id = a.semester_id
+        JOIN staff st ON st.id = a.staff_id
+        WHERE a.staff_id = #{staff_id}
+    </select>
+    <select id="countBySemesterIdAndStaffId" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM assessment
+        WHERE semester_id = #{semester_id} AND staff_id = #{staff_id}
+    </select>
 </mapper>

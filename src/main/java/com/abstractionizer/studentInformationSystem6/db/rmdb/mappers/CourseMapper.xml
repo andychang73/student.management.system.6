@@ -2,27 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.CourseMapper">
 
-    <select id="countByCourseIdsOrCourse" resultType="java.lang.Integer">
+    <select id="countByCourseIdsOrCourseOrHeadId" resultType="java.lang.Integer">
         SELECT COUNT(id)
         FROM course
         <where>
-            <choose>
-                <when test="course_ids != null">
-                    status = 1 AND id IN
-                    <foreach collection="course_ids" item="item" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
-                </when>
-                <when test="course != null and course != ''">
-                    status = 1 AND course = #{course}
-                </when>
-            </choose>
+            status = 1
+            <if test="course_ids != null">
+                AND id IN
+                <foreach collection="course_ids" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="course != null and course != ''">
+                AND course = #{course}
+            </if>
+            <if test="head_id != null">
+                AND head_id = #{head_id}
+            </if>
         </where>
     </select>
-    <select id="getAllCourses"
+
+    <select id="getAllCoursesOrByHeadId"
             resultType="com.abstractionizer.studentInformationSystem6.models.vo.course.CourseVo">
         SELECt id, course
         FROM course
+        <where>
+            <if test="head_id != null and head_id != 0">
+                head_id = #{head_id}
+            </if>
+        </where>
     </select>
-
 </mapper>

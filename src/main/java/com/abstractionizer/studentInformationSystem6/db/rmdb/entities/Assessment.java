@@ -26,7 +26,7 @@ public class Assessment {
 
     private Float result;
 
-    private Integer assessedBy;
+    private String assessedBy;
 
     private Integer status;
 

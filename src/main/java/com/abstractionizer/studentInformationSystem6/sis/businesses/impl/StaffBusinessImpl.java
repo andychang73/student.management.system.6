@@ -9,6 +9,7 @@ import com.abstractionizer.studentInformationSystem6.models.bo.user.*;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserLoginDto;
 import com.abstractionizer.studentInformationSystem6.models.vo.user.SuccessfulLoginVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.user.teacher.TeacherVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StaffBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.UserBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.LoginService;
@@ -21,9 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,11 @@ public class StaffBusinessImpl extends UserBusiness<Staff> implements StaffBusin
         this.loginService.setUserLoginToken(dto.getToken(), dto.getUserInfo().setUserGroup(UserGroup.STAFF));
 
         return new SuccessfulLoginVo(dto.getToken());
+    }
+
+    @Override
+    public List<TeacherVo> getMyTeachers(@NonNull final Integer headId) {
+        return staffService.selectByReportTo(headId);
     }
 
     @Override
@@ -90,6 +96,11 @@ public class StaffBusinessImpl extends UserBusiness<Staff> implements StaffBusin
     public void createStaff(@NonNull final String creator, @NonNull final CreateStaffBo bo) {
         if(!roleService.areRoleIdsExist(bo.getRoleIds())){
             throw new CustomExceptions(ErrorCode.ROLE_NOT_EXISTS);
+        }
+        if(Objects.nonNull(bo.getReportTo())){
+            if(!staffService.isStaffExists(bo.getReportTo())){
+                throw new CustomExceptions(ErrorCode.USER_NON_EXISTS);
+            }
         }
 
         Staff staff = staffService.create(generateStaff(creator, bo));

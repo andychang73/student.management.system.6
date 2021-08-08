@@ -9,4 +9,6 @@ public interface CourseBusiness {
     void create(String creator, CreateCourseBo bo);
 
     List<CourseVo> getAllCourses();
+
+    List<CourseVo> getMyCourses(Integer headId);
 }

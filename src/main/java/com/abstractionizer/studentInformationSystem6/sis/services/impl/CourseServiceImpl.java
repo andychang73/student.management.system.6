@@ -33,12 +33,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseVo> getAllCourses() {
-        return courseMapper.getAllCourses();
+        return courseMapper.getAllCoursesOrByHeadId(null);
+    }
+
+    @Override
+    public List<CourseVo> getCoursesByHeadId(@NonNull final Integer headId) {
+        return courseMapper.getAllCoursesOrByHeadId(headId);
     }
 
     @Override
     public boolean isCourseExists(@NonNull final String course) {
-        return courseMapper.countByCourseIdsOrCourse(null, course) > 0;
+        return courseMapper.countByCourseIdsOrCourseOrHeadId(null, course, null) > 0;
     }
 
     @Override
@@ -46,6 +51,11 @@ public class CourseServiceImpl implements CourseService {
         if(courseIds.isEmpty()){
             return false;
         }
-        return courseMapper.countByCourseIdsOrCourse(courseIds, null) == courseIds.size();
+        return courseMapper.countByCourseIdsOrCourseOrHeadId(courseIds, null, null) == courseIds.size();
+    }
+
+    @Override
+    public boolean isMyCourse(@NonNull final Integer headId, @NonNull final Integer courseId) {
+        return courseMapper.countByCourseIdsOrCourseOrHeadId(Set.of(courseId),null, headId) > 0;
     }
 }

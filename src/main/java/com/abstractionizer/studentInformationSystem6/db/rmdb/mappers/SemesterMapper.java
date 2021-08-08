@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface SemesterMapper extends BaseMapper<Semester> {
 
     int countByYearAndSemester(@Param("year") Integer year, @Param("semester") Integer semester);
+
+    Semester selectCurrentSemester();
 }

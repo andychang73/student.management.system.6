@@ -30,9 +30,9 @@ public class StudentCourse {
 
     private Integer numOfCompletedPreCourse;
 
-    private Float grade;
+    private Float finalGrade;
 
-    private Float attendance;
+    private Float finalAttendance;
 
     private Integer status;
 

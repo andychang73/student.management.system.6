@@ -1,0 +1,1 @@
+ALTER TABLE student_homework MODIFY COLUMN grade FLOAT(6,2) NOT NULL;

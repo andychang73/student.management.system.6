@@ -59,6 +59,11 @@ public class CourseBusinessImpl implements CourseBusiness {
         return courseService.getAllCourses();
     }
 
+    @Override
+    public List<CourseVo> getMyCourses(@NonNull final Integer headId) {
+        return courseService.getCoursesByHeadId(headId);
+    }
+
     private Set<PreCourse> generatePreCourses(Integer courseId, Set<Integer> preCourseIds, String creator){
         return preCourseIds.stream()
                 .map(c -> new PreCourse().setCourseId(courseId).setPreCourseId(c).setCreator(creator))

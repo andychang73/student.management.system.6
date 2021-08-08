@@ -25,7 +25,7 @@ public class SemesterClass {
 
     private Integer weekNo;
 
-    private LocalDate date;
+    private Date date;
 
     private Date createTime;
 

@@ -36,6 +36,23 @@
         WHERE id = #{id}
     </select>
 
+    <resultMap id="TeacherVo" type="com.abstractionizer.studentInformationSystem6.models.vo.user.teacher.TeacherVo">
+        <id column="id" property="teacherId" jdbcType="INTEGER"/>
+        <result column="username" property="teacherName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectByReportTo" resultMap="TeacherVo">
+        SELECT id, username
+        FROM staff
+        WHERE report_to = #{report_to}
+    </select>
+
+    <select id="countByStaffIdAndReportTo" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM staff
+        WHERE id = #{id} AND report_to = #{report_to}
+    </select>
+
     <update id="updateStaff">
         UPDATE staff
         <set>

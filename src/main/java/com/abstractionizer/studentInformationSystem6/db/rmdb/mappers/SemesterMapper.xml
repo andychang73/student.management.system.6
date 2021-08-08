@@ -7,4 +7,11 @@
         FROM semester
         WHERE year = #{year} AND semester = #{semester}
     </select>
+    <select id="selectCurrentSemester"
+            resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Semester">
+        SELECT *
+        FROM semester
+        ORDER BY id DESC
+        LIMIT 1;
+    </select>
 </mapper>

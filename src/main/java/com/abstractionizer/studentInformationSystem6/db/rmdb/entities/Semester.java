@@ -25,9 +25,9 @@ public class Semester {
 
     private Integer semester;
 
-    private LocalDate startDate;
+    private Date startDate;
 
-    private LocalDate endDate;
+    private Date endDate;
 
     private Integer numOfWeeks;
 

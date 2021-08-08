@@ -6,6 +6,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.studentMajor.CreateStudentMajorBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.course.PreCourseCountDto;
+import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentMajorBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.*;
 import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;

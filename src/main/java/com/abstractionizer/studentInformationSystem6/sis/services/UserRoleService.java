@@ -7,5 +7,7 @@ public interface UserRoleService {
 
     boolean areUserRoleExist(Integer userId, Set<Integer> roleIds);
 
+    boolean isUserMatchingRole(Integer userId, Integer roleId);
+
     void create(Set<UserRole> userRoles);
 }

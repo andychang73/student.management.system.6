@@ -9,4 +9,5 @@
                 (#{item.id}, #{item.studentId}, #{item.courseId}, #{item.numOfPreCourse})
             </foreach>
     </insert>
+
 </mapper>

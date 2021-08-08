@@ -30,8 +30,14 @@ public class CourseController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping
+    @GetMapping("/all")
     public SuccessResponse<List<CourseVo>> getAllCourses(){
         return new SuccessResponse<>(courseBusiness.getAllCourses());
+    }
+
+    @PreAuthorize("hasRole('ROLE_HEAD')")
+    @GetMapping("/myCourses")
+    public SuccessResponse<List<CourseVo>> getMyCourses(@RequestAttribute("Staff") UserInfo userInfo){
+        return new SuccessResponse<>(courseBusiness.getMyCourses(userInfo.getId()));
     }
 }

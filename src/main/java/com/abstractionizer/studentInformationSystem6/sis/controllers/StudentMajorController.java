@@ -2,7 +2,7 @@ package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
 import com.abstractionizer.studentInformationSystem6.models.bo.studentMajor.CreateStudentMajorBo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
-import com.abstractionizer.studentInformationSystem6.sis.businesses.impl.StudentMajorBusiness;
+import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentMajorBusiness;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

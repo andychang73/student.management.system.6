@@ -1,4 +1,4 @@
-package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
+package com.abstractionizer.studentInformationSystem6.sis.businesses;
 
 import com.abstractionizer.studentInformationSystem6.models.bo.studentMajor.CreateStudentMajorBo;
 

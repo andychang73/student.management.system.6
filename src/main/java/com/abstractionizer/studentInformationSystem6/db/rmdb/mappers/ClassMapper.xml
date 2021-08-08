@@ -2,4 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.ClassMapper">
 
+    <select id="countByStaffIdAndStartTimeAndEndTime" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM class
+        WHERE staff_id = #{staff_id} AND week_day = #{week_day} AND ((start_time <![CDATA[ < ]]> #{end_time} AND #{end_time} <![CDATA[ <= ]]> end_time)
+                OR (#{start_time} <![CDATA[ < ]]> end_time AND end_time <![CDATA[ <= ]]> #{end_time}))
+    </select>
+
+    <resultMap id="ClassesOfTheWeek" type="com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo">
+        <result column="course_id" property="courseId" jdbcType="INTEGER"/>
+        <result column="course" property="course" jdbcType="VARCHAR"/>
+        <collection property="classDto" ofType="com.abstractionizer.studentInformationSystem6.models.dto.classes.ClassDto">
+            <id column="id" property="classId" jdbcType="INTEGER"/>
+            <result column="week_day" property="weekDay" jdbcType="INTEGER"/>
+            <result column="staff_id" property="teacherId" jdbcType="INTEGER"/>
+            <result column="staff_name" property="teacherName" jdbcType="VARCHAR"/>
+            <result column="start_time" property="startTime" jdbcType="TIME"/>
+            <result column="end_time" property="endTime" jdbcType="TIME"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectClassDtoBySemesterIdAndCourseId" resultMap="ClassesOfTheWeek">
+        SELECT c.id AS course_id, c.course, cl.id, cl.week_day, s.id AS staff_id, s.username AS staff_name, cl.start_time, cl.end_time
+        FROM course c
+        JOIN class cl ON cl.course_id = c.id
+        JOIN staff s ON s.id = cl.staff_id
+        WHERE cl.semester_id = #{semester_id} AND cl.course_id = #{course_id} AND cl.status = 1 AND c.status = 1
+    </select>
+
+    <resultMap id="ClassInfoVo" type="com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo">
+        <result column="staff_name" property="teacherName" jdbcType="VARCHAR"/>
+        <collection property="students" ofType="com.abstractionizer.studentInformationSystem6.models.vo.user.student.StudentAttendanceAndGrade">
+            <result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+            <result column="homework_average_grade" property="homeworkAverageGrade" jdbcType="FLOAT"/>
+            <result column="attendance" property="attendance" jdbcType="FLOAT"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByClassId" resultMap="ClassInfoVo">
+        SELECT sf.username AS staff_name, st.username AS student_name, homework_average_grade, attendance
+        FROM class c
+        JOIN student_class sc ON sc.class_id = c.id
+        JOIN staff sf ON sf.id = c.staff_id
+        JOIN student st ON st.id = sc.student_id
+        WHERE c.id = #{id}
+    </select>
+    <select id="countByClassIdAndHeadId" resultType="java.lang.Integer">
+        SELECT COUNT(co.id)
+        FROM class cl
+        JOIN course co ON co.id = cl.course_id
+        WHERE cl.id = #{id} AND co.head_id = #{head_id}
+    </select>
 </mapper>

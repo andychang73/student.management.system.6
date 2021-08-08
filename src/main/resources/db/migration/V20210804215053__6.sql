@@ -1,0 +1,2 @@
+ALTER TABLE date_config ADD COLUMN status TINYINT UNSIGNED DEFAULT 1 AFTER date;
+ALTER TABLE class ADD COLUMN num_of_student_enrolled INT UNSIGNED DEFAULT 0 AFTER maximum;

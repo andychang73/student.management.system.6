@@ -23,6 +23,8 @@ public enum ErrorCode implements BaseError{
     STUDENT_NON_EXISTS(HttpStatus.BAD_REQUEST, "10030", "Student does not exist"),
     STUDENT_MAJOR_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "10031", "Student has already selected this major"),
 
+    TEACHER_WRONG_COURSE(HttpStatus.BAD_REQUEST, "10041", "This teacher does not teach this subject"),
+
     ROLE_ALREADY_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "10100", "Role already exists"),
     ROLE_AUTHORITY_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "10101", "Authorities has been bound to this role"),
     ROLE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "10102", "This role does not exist"),
@@ -36,11 +38,19 @@ public enum ErrorCode implements BaseError{
     MAJOR_NON_EXISTS(HttpStatus.BAD_REQUEST, "10061", "Major does not exists"),
 
     COURSE_EXISTS(HttpStatus.BAD_REQUEST, "10070", "Course already exists"),
-    COURSE_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "10071", "Failed to create course"),
     COURSE_NON_EXISTS(HttpStatus.BAD_REQUEST, "10071", "Course doesn't exists"),
+    COURSE_INCORRECT_HEAD(HttpStatus.FORBIDDEN, "10072", "This course does not belong to this head"),
+    CLASS_INCORRECT_HEAD(HttpStatus.FORBIDDEN, "10073", "This class does not belong to this head"),
 
     SEMESTER_EXISTS(HttpStatus.BAD_REQUEST, "10092", "Semester has been created"),
     SEMESTER_NON_EXISTS(HttpStatus.BAD_REQUEST, "10093", "Semester does not exist"),
+    SEMESTER_NOT_ENDED(HttpStatus.INTERNAL_SERVER_ERROR, "10094", "Not allowed to create new semester unless current semester ends"),
+
+    CLASS_CREATION_FORBIDDEN(HttpStatus.FORBIDDEN, "10200", "Class is only allow to be created 15 days to 30 days before semester starts"),
+    CLASS_CONFLICT(HttpStatus.INTERNAL_SERVER_ERROR, "10201", "Class conflict"),
+
+    ASSESSED(HttpStatus.INTERNAL_SERVER_ERROR, "10301", "This teacher has been assessed"),
+    ASSESSMENT_FORBIDDEN(HttpStatus.FORBIDDEN, "10302", "Not allowed to assess before current semester ends")
     ;
 
     private final HttpStatus httpStatus;

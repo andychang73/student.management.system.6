@@ -1,0 +1,3 @@
+ALTER TABLE assesment RENAME TO assessment;
+ALTER TABLE assessment MODIFY COLUMN result FLOAT(6,2) NOT NULL;
+ALTER TABLE assessment MODIFY status TINYINT DEFAULT 1;
