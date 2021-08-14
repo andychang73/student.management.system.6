@@ -3,6 +3,7 @@ package com.abstractionizer.studentInformationSystem6.sis.controllers;
 import com.abstractionizer.studentInformationSystem6.models.bo.classes.CreateClassBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.ClassBusiness;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -39,6 +41,12 @@ public class ClassController {
     public SuccessResponse<ClassInfoVo> getClassInfoVo(@RequestAttribute("Staff") UserInfo userInfo,
                                                        @PathVariable("id") Integer classId){
         return new SuccessResponse<>(classBusiness.getClassInfoVo(userInfo.getId(), classId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @GetMapping
+    public SuccessResponse<List<ClassVo>> getMyClassesOfThisSemester(@RequestAttribute("Staff") UserInfo userInfo){
+        return new SuccessResponse<>(classBusiness.getMyClassesOfThisSemester(userInfo.getId()));
     }
 
 }

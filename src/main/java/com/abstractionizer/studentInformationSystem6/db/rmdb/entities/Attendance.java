@@ -26,7 +26,7 @@ public class Attendance {
 
     private Integer status;
 
-    private Integer takenBy;
+    private String takenBy;
 
     private Date createTime;
 

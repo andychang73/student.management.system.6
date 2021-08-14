@@ -9,4 +9,6 @@ public interface AssessmentBusiness {
     void assess(UserInfo headInfo, CreateAssessmentBo bo);
 
     AssessmentVo getTeacherAssessmentResults(Integer headId, Integer teacherId);
+
+    AssessmentVo getMyAssessment(Integer teacherId);
 }

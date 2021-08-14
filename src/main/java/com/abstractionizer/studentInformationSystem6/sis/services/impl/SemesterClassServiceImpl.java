@@ -10,7 +10,10 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -29,4 +32,16 @@ public class SemesterClassServiceImpl implements SemesterClassService {
             throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
         }
     }
+
+    @Override
+    public Optional<SemesterClass> selectBySemesterClassId(@NonNull final Integer id) {
+        return Optional.ofNullable(semesterClassMapper.selectBySemesterClassId(id));
+    }
+
+
+    @Override
+    public Date getClassEndTime(@NonNull final Integer id) {
+        return semesterClassMapper.selectByClassId(id);
+    }
+
 }

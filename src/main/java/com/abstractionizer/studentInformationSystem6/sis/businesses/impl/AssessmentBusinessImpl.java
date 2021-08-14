@@ -58,4 +58,9 @@ public class AssessmentBusinessImpl implements AssessmentBusiness {
         }
         return assessmentService.getAssessments(teacherId);
     }
+
+    @Override
+    public AssessmentVo getMyAssessment(@NonNull final Integer teacherId) {
+        return assessmentService.getAssessments(teacherId);
+    }
 }

@@ -20,4 +20,6 @@ public interface SemesterService {
 
     List<ClassDateDto> getSemesterClassDates(Date startDate, Integer weekDay, Integer numOfWeeks);
 
+    Integer getWeekNumber(Date date);
+
 }

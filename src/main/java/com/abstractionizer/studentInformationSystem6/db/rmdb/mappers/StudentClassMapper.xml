@@ -2,4 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentClassMapper">
 
+    <resultMap id="StudentsOfTheClass" type="com.abstractionizer.studentInformationSystem6.models.vo.studentClass.StudentsOfTheClass">
+        <id column="id" property="semesterClassId" jdbcType="INTEGER"/>
+        <result column="week_no" property="weekNo" jdbcType="INTEGER"/>
+        <collection property="students" ofType="com.abstractionizer.studentInformationSystem6.models.vo.user.student.StudentVo">
+            <id column="student_id" property="studentId" jdbcType="INTEGER"/>
+            <result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <update id="updateAttendanceByClassIdAndStudentId">
+        UPDATE student_class
+        SET attendance = (case
+            <foreach collection="dto" item="item">
+                WHEN (student_id = #{item.studentId}) THEN #{item.attendance}
+            </foreach> END)
+        WHERE class_id = #{class_id} AND student_id IN
+            <foreach collection="dto" item="item" open="(" separator="," close=")">
+                #{item.studentId}
+            </foreach>
+    </update>
+
+    <select id="selectByClassIdAndWeekNo" resultMap="StudentsOfTheClass">
+        SELECT smc.id, week_no, s.id AS student_id, username AS student_name
+        FROM student_class stc
+        JOIN semester_class smc ON smc.class_id = stc.class_id
+        JOIN student s ON s.id = stc.student_id
+        WHERE stc.class_id = #{class_id} AND smc.week_no = #{week_no} AND stc.status = 1
+    </select>
+    <select id="selectByClassIdAndWeekNum"
+            resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass">
+        SELECT *
+        FROM semester_class
+        WHERE class_id = #{class_id} AND week_no = #{week_no}
+    </select>
+    <select id="countByStudentIdAndClassId" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM student_class
+        WHERE class_id = #{class_id} AND student_id IN
+            <foreach collection="student_ids" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </select>
+
 </mapper>

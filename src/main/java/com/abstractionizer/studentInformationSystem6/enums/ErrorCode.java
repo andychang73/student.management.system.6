@@ -40,7 +40,8 @@ public enum ErrorCode implements BaseError{
     COURSE_EXISTS(HttpStatus.BAD_REQUEST, "10070", "Course already exists"),
     COURSE_NON_EXISTS(HttpStatus.BAD_REQUEST, "10071", "Course doesn't exists"),
     COURSE_INCORRECT_HEAD(HttpStatus.FORBIDDEN, "10072", "This course does not belong to this head"),
-    CLASS_INCORRECT_HEAD(HttpStatus.FORBIDDEN, "10073", "This class does not belong to this head"),
+    CLASS_NOT_FOUND(HttpStatus.FORBIDDEN, "10073", "This class does not belong to this head"),
+    CLASS_NON_EXISTS(HttpStatus.NOT_FOUND, "10074", "This class id does not exist"),
 
     SEMESTER_EXISTS(HttpStatus.BAD_REQUEST, "10092", "Semester has been created"),
     SEMESTER_NON_EXISTS(HttpStatus.BAD_REQUEST, "10093", "Semester does not exist"),
@@ -48,9 +49,13 @@ public enum ErrorCode implements BaseError{
 
     CLASS_CREATION_FORBIDDEN(HttpStatus.FORBIDDEN, "10200", "Class is only allow to be created 15 days to 30 days before semester starts"),
     CLASS_CONFLICT(HttpStatus.INTERNAL_SERVER_ERROR, "10201", "Class conflict"),
+    CLASS_STUDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "10202", "Students do not belong to this class"),
 
     ASSESSED(HttpStatus.INTERNAL_SERVER_ERROR, "10301", "This teacher has been assessed"),
-    ASSESSMENT_FORBIDDEN(HttpStatus.FORBIDDEN, "10302", "Not allowed to assess before current semester ends")
+    ASSESSMENT_FORBIDDEN(HttpStatus.FORBIDDEN, "10302", "Not allowed to assess before current semester ends"),
+
+    ATTENDANCE_TAKEN(HttpStatus.CONFLICT, "10400", "This week's attendance has been taken"),
+    ATTENDANCE_FORBIDDEN(HttpStatus.FORBIDDEN, "10401", "Attendance can only be taken after the class is ended")
     ;
 
     private final HttpStatus httpStatus;

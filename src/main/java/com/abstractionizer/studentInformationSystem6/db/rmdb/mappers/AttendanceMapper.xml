@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.AttendanceMapper">
+    <insert id="insertBatch">
+        INSERT INTO attendance(id, semester_class_id, student_id, taken_by)
+        VALUES
+            <foreach collection="attendances" item="item" separator=",">
+                (#{item.id}, #{item.semesterClassId}, #{item.studentId}, #{item.takenBy})
+            </foreach>
+    </insert>
+
+    <select id="countBySemesterClassId" resultType="java.lang.Integer">
+        SELECt COUNT(id)
+        FROM attendance
+        WHERE semester_class_id = #{semester_class_id}
+    </select>
+
+    <select id="selectByClassIdAndWeekNo"
+            resultType="com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto">
+        SELECT student_id, ROUND(COUNT(student_id)/#{week_no} * 100, 2) as attendance
+        FROM attendance
+        WHERE semester_class_id IN
+            (
+             SELECT id
+             FROM semester_class
+             WHERE week_no <![CDATA[ <= ]]> #{week_no} AND class_id = #{class_id}
+            )
+        GROUP BY student_id;
+    </select>
+
 
 </mapper>

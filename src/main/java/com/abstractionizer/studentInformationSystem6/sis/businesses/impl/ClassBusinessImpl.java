@@ -8,6 +8,7 @@ import com.abstractionizer.studentInformationSystem6.enums.UserRole;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.classes.CreateClassBo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.models.dto.semesterClass.ClassDateDto;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
@@ -87,9 +88,14 @@ public class ClassBusinessImpl implements ClassBusiness {
     @Override
     public ClassInfoVo getClassInfoVo(@NonNull final Integer headId, @NonNull final Integer classId) {
         if(!classService.isMyClass(headId, classId)){
-            throw new CustomExceptions(ErrorCode.CLASS_INCORRECT_HEAD);
+            throw new CustomExceptions(ErrorCode.CLASS_NOT_FOUND, "This class does not belong to this head");
         }
         return classService.getClassInfoVo(classId);
+    }
+
+    @Override
+    public List<ClassVo> getMyClassesOfThisSemester(@NonNull final Integer staffId) {
+        return classService.getMyClassesOfThisSemester(staffId, semesterService.getCurrentSemester().getId());
     }
 
     private List<SemesterClass> getSemesterClasses(List<ClassDateDto> classDates, Integer classId){

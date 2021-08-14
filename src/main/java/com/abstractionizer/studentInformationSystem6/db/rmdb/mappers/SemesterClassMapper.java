@@ -6,11 +6,17 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 @Repository
 public interface SemesterClassMapper extends BaseMapper<SemesterClass> {
 
     int insertBatch(@Param("classes")List<SemesterClass> classes);
+
+    SemesterClass selectBySemesterClassId(@Param("id") Integer id);
+
+    Date selectByClassId(@Param("id") Integer id);
 }

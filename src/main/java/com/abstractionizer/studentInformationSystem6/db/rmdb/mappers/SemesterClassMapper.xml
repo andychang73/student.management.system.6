@@ -9,4 +9,18 @@
                 (#{item.id}, #{item.classId},#{item.weekNo}, #{item.date})
             </foreach>
     </insert>
+
+    <select id="selectByClassId" resultType="java.util.Date">
+        SELECT TIMESTAMP (date,end_time)
+        FROM semester_class sc
+        JOIN class c ON c.id = sc.class_id
+        WHERE sc.id = #{id}
+    </select>
+    <select id="selectBySemesterClassId"
+            resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass">
+        SELECT *
+        FROM semester_class
+        WHERE id = #{id}
+    </select>
+
 </mapper>

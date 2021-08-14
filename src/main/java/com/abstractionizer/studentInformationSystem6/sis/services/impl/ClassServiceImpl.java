@@ -5,6 +5,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.ClassMapper
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.ClassService;
 import com.abstractionizer.studentInformationSystem6.utils.DateUtil;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -53,7 +55,22 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public boolean isMyClass(Integer headId, Integer classId) {
-        return classMapper.countByClassIdAndHeadId(classId, headId) > 0;
+    public boolean isMyClass(@NonNull final Integer headId, @NonNull final Integer classId) {
+        return classMapper.countByClassIdAndOrHeadId(classId, headId) > 0;
+    }
+
+    @Override
+    public boolean isClassMine(Integer id, Integer staffId) {
+        return classMapper.countByClassIdAndStaffId(id, staffId) > 0;
+    }
+
+    @Override
+    public boolean isClassExists(@NonNull final Integer classId) {
+        return classMapper.countByClassIdAndOrHeadId(classId, null) > 0;
+    }
+
+    @Override
+    public List<ClassVo> getMyClassesOfThisSemester(@NonNull final Integer staffId, @NonNull final Integer semesterId) {
+        return classMapper.selectByStaffIdAndSemesterId(staffId, semesterId);
     }
 }

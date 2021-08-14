@@ -47,10 +47,39 @@
         JOIN student st ON st.id = sc.student_id
         WHERE c.id = #{id}
     </select>
-    <select id="countByClassIdAndHeadId" resultType="java.lang.Integer">
-        SELECT COUNT(co.id)
+    <select id="countByClassIdAndOrHeadId" resultType="java.lang.Integer">
+        SELECT COUNT(cl.id)
         FROM class cl
         JOIN course co ON co.id = cl.course_id
-        WHERE cl.id = #{id} AND co.head_id = #{head_id}
+        <where>
+            <if test="id != null and id != 0">
+                AND cl.id = #{id}
+            </if>
+            <if test="head_id != null and head_id != 0">
+                AND head_id = #{head_id}
+            </if>
+        </where>
     </select>
+
+    <resultMap id="ClassVo" type="com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo">
+        <id column="class_id" property="classId" jdbcType="INTEGER"/>
+        <result column="course" property="course" jdbcType="VARCHAR"/>
+        <result column="week_day" property="weekDay" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIME"/>
+        <result column="end_time" property="endTime" jdbcType="TIME"/>
+    </resultMap>
+
+    <select id="selectByStaffIdAndSemesterId" resultMap="ClassVo">
+        SELECT cl.id AS class_id, c.course, week_day, start_time, end_time
+        FROM class cl
+        JOIN course c ON c.id = cl.course_id
+        WHERE staff_id = #{staff_id} AND semester_id = #{semester_id}
+    </select>
+    <select id="countByClassIdAndStaffId" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM class
+        WHERE staff_id = #{staff_id} AND id = #{id}
+    </select>
+
+
 </mapper>

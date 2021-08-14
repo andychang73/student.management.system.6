@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -31,5 +32,11 @@ public class AssessmentController {
                                   @RequestBody @Valid CreateAssessmentBo bo){
         assessmentBusiness.assess(userInfo, bo);
         return new SuccessResponse();
+    }
+
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @GetMapping
+    public SuccessResponse<AssessmentVo> getMyAssessment(@RequestAttribute("Staff") UserInfo userInfo){
+        return new SuccessResponse<>(assessmentBusiness.getMyAssessment(userInfo.getId()));
     }
 }

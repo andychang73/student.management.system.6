@@ -12,6 +12,8 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,5 +69,19 @@ public class SemesterServiceImpl implements SemesterService {
             classDates.add(new ClassDateDto(i + 1, date));
         }
         return classDates;
+    }
+
+    @Override
+    public Integer getWeekNumber(@NonNull final Date today) {
+        Date startDate = this.getCurrentSemester().getStartDate();
+        Date endOfThisWeek = DateUtil.getFridayOfParticularWeek(today,null);
+
+        int weekNo = 0;
+        do{
+            startDate = DateUtil.adjustDate(startDate, 7);
+            weekNo++;
+        }while(startDate.before(endOfThisWeek));
+
+        return weekNo;
     }
 }
