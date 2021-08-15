@@ -55,7 +55,10 @@ public enum ErrorCode implements BaseError{
     ASSESSMENT_FORBIDDEN(HttpStatus.FORBIDDEN, "10302", "Not allowed to assess before current semester ends"),
 
     ATTENDANCE_TAKEN(HttpStatus.CONFLICT, "10400", "This week's attendance has been taken"),
-    ATTENDANCE_FORBIDDEN(HttpStatus.FORBIDDEN, "10401", "Attendance can only be taken after the class is ended")
+    ATTENDANCE_FORBIDDEN(HttpStatus.FORBIDDEN, "10401", "Attendance can only be taken after the class is ended"),
+
+    HOMEWORK_EXISTS(HttpStatus.CONFLICT, "10401", "Homework already exists"),
+    HOMEWORK_INVALID_DEADLINE(HttpStatus.CONFLICT, "10402", "Invalid homework deadline")
     ;
 
     private final HttpStatus httpStatus;

@@ -11,7 +11,7 @@ import com.abstractionizer.studentInformationSystem6.models.dto.user.UserLoginDt
 import com.abstractionizer.studentInformationSystem6.models.vo.user.SuccessfulLoginVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.user.teacher.TeacherVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StaffBusiness;
-import com.abstractionizer.studentInformationSystem6.sis.businesses.UserBusiness;
+import com.abstractionizer.studentInformationSystem6.sis.businesses.BaseBusinesses.UserBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.LoginService;
 import com.abstractionizer.studentInformationSystem6.sis.services.RoleService;
 import com.abstractionizer.studentInformationSystem6.sis.services.StaffService;

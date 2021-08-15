@@ -45,4 +45,9 @@ public class StudentClassServiceImpl implements StudentClassService {
             throw new CustomExceptions(ErrorCode.DATA_UPDATE_FAILED);
         }
     }
+
+    @Override
+    public List<AttendanceDto> getStudentsCurrentAttendance(@NonNull final Integer classId) {
+        return studentClassMapper.selectAttendanceByClassId(classId);
+    }
 }

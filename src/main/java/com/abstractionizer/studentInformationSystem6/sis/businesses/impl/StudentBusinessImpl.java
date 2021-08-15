@@ -3,7 +3,7 @@ package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Student;
 import com.abstractionizer.studentInformationSystem6.models.bo.user.CreateStudentBo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentBusiness;
-import com.abstractionizer.studentInformationSystem6.sis.businesses.UserBusiness;
+import com.abstractionizer.studentInformationSystem6.sis.businesses.BaseBusinesses.UserBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.LoginService;
 import com.abstractionizer.studentInformationSystem6.sis.services.StudentService;
 import com.abstractionizer.studentInformationSystem6.utils.MD5Util;

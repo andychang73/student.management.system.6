@@ -43,5 +43,13 @@
                 #{item}
             </foreach>
     </select>
+    <select id="selectAttendanceByClassId"
+            resultType="com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto">
+        SELECT s.id AS studentId, username AS studentName, attendance
+        FROM student_class sc
+        JOIN student s ON s.id = sc.student_id
+        WHERE sc.class_id = #{class_id}
+    </select>
+
 
 </mapper>

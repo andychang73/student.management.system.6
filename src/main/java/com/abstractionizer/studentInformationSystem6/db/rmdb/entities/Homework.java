@@ -32,5 +32,5 @@ public class Homework {
 
     private Date createTime;
 
-    private Date endTime;
+    private Date updateTime;
 }

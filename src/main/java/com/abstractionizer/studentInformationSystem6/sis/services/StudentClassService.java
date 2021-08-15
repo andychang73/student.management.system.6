@@ -17,4 +17,6 @@ public interface StudentClassService {
     boolean areStudentsInTheClass(Integer classId, Set<Integer> studentIds);
 
     void updateCurrentAttendance(Integer classId, List<AttendanceDto> dto);
+
+    List<AttendanceDto> getStudentsCurrentAttendance(Integer classId);
 }

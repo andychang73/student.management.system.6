@@ -23,4 +23,6 @@ public interface StudentClassMapper extends BaseMapper<StudentClass> {
     int countByStudentIdAndClassId(@Param("class_id") Integer classId, @Param("student_ids") Set<Integer> studentIds);
 
     int updateAttendanceByClassIdAndStudentId(@Param("class_id") Integer classId, @Param("dto")List<AttendanceDto> dto);
+
+    List<AttendanceDto> selectAttendanceByClassId(@Param("class_id") Integer classId);
 }

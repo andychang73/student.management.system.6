@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AttendanceDto {
     private Integer studentId;
+    private String studentName;
     private Double attendance;
 }

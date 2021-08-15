@@ -1,4 +1,4 @@
-package com.abstractionizer.studentInformationSystem6.sis.businesses;
+package com.abstractionizer.studentInformationSystem6.sis.businesses.BaseBusinesses;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.User;
 import com.abstractionizer.studentInformationSystem6.enums.AccountStatus;
