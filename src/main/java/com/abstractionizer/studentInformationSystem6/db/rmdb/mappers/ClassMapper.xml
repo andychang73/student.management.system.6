@@ -75,11 +75,40 @@
         JOIN course c ON c.id = cl.course_id
         WHERE staff_id = #{staff_id} AND semester_id = #{semester_id}
     </select>
-    <select id="countByClassIdAndStaffId" resultType="java.lang.Integer">
-        SELECT COUNT(id)
-        FROM class
-        WHERE staff_id = #{staff_id} AND id = #{id}
+    <select id="countByClassIdAndStaffIdAndDate" resultType="java.lang.Integer">
+        SELECT COUNT(c.id)
+        FROM class c
+        JOIN semester s ON s.id = c.semester_id
+        WHERE c.staff_id = #{staff_id} AND c.id = #{id} AND (#{date} BETWEEN s.start_date AND s.end_date)
     </select>
-
+    <select id="selectStudentAverageGradeByClassId"
+            resultType="com.abstractionizer.studentInformationSystem6.models.vo.studentHomework.StudentAverageGradesVo">
+        SELECT s.id AS student_id, s.username AS student_name, ROUND(SUM(grade)/#{number_of_homework}, 2) as average_grade
+        FROM class c
+        JOIN semester_class sc ON sc.class_id = c.id
+        JOIN homework h ON h.semester_class_id = sc.id
+        JOIN student_homework sh ON sh.homework_id = h.id
+        JOIN student s ON s.id = sh.student_id
+        WHERE c.id = #{id}
+        GROUP BY s.id
+    </select>
+    <select id="countNumberOfHomeworkByClassId" resultType="java.lang.Integer">
+        SELECT COUNT(h.id)
+        FROM class c
+        JOIN semester_class sc ON sc.class_id =c.id
+        JOIN homework h ON h.semester_class_id = sc.id
+        WHERE c.id = #{id}
+    </select>
+    <select id="countByClassIdAndStudentId"
+            resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse">
+        SELECT sc.*
+        FROM class cl
+        JOIN course c ON c.id = cl.course_id
+        JOIN student_course sc ON sc.course_id = c.id
+        WHERE cl.id = #{id} AND sc.status = 2 AND sc.semester_id = #{semester_id} AND final_grade IS NULL AND sc.student_id IN
+        <foreach collection="student_ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

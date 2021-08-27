@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentHomeworkMapper">
 
+    <resultMap id="StudentWeeklyHomeworkGradeVo" type="com.abstractionizer.studentInformationSystem6.models.vo.studentHomework.StudentWeeklyHomeworkGradeVo">
+        <result column="student_id" property="studentId" jdbcType="INTEGER"/>
+        <result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+        <collection property="grades" ofType="com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade">
+            <result column="week_no" property="weekNo" jdbcType="INTEGER"/>
+            <result column="grade" property="grade" jdbcType="FLOAT"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByClassIdAndDeadLine" resultMap="StudentWeeklyHomeworkGradeVo">
+        SELECT x.student_id, x.student_name, x.week_no, IFNULL(y.grade,0) as grade
+        FROM
+            (
+                SELECT sc.student_id, s.username AS student_name, week_no, h.id
+                FROM student_class sc
+                JOIN student s ON s.id = sc.student_id
+                JOIN class c ON c.id = sc.class_id
+                JOIN semester_class smc ON smc.class_id = c.id
+                JOIN homework h ON h.semester_class_id = smc.id
+                WHERE c.id = #{class_id} AND deadline <![CDATA[ < ]]> #{now}
+            ) as x
+        LEFT JOIN
+            (
+                SELECT student_id, homework_id, grade
+                FROM student_homework
+            ) as y ON x.student_id = y.student_id AND x.id = y.homework_id
+        ORDER BY x.student_id, x.week_no
+    </select>
 </mapper>

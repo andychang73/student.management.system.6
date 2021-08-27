@@ -32,11 +32,8 @@ public class HomeworkBusinessImpl implements HomeworkBusiness {
 
     @Override
     public void create(@NonNull final Integer staffId, @NonNull final CreateHomeworkBo bo) {
-        if(!classService.isClassExists(bo.getClassId())){
-            throw new CustomExceptions(ErrorCode.CLASS_NON_EXISTS);
-        }
-        if(!classService.isClassMine(bo.getClassId(),staffId)){
-            throw new CustomExceptions(ErrorCode.CLASS_NOT_FOUND, "This class does not belong to this teacher");
+        if(!classService.isClassValid(bo.getClassId(),staffId, dateConfigService.getDate())){
+            throw new CustomExceptions(ErrorCode.CLASS_INVALID);
         }
 
         Integer weekNo = semesterService.getWeekNumber(dateConfigService.getDate());

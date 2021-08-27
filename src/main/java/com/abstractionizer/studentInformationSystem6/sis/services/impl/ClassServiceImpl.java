@@ -1,12 +1,14 @@
 package com.abstractionizer.studentInformationSystem6.sis.services.impl;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Classes;
+import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.ClassMapper;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.studentHomework.StudentAverageGradesVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.ClassService;
 import com.abstractionizer.studentInformationSystem6.utils.DateUtil;
 import lombok.AllArgsConstructor;
@@ -15,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -60,17 +61,34 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public boolean isClassMine(Integer id, Integer staffId) {
-        return classMapper.countByClassIdAndStaffId(id, staffId) > 0;
-    }
-
-    @Override
-    public boolean isClassExists(@NonNull final Integer classId) {
-        return classMapper.countByClassIdAndOrHeadId(classId, null) > 0;
+    public boolean isClassValid(@NonNull final Integer id, @NonNull final Integer staffId, @NonNull final Date date) {
+        return classMapper.countByClassIdAndStaffIdAndDate(id, staffId, date) > 0;
     }
 
     @Override
     public List<ClassVo> getMyClassesOfThisSemester(@NonNull final Integer staffId, @NonNull final Integer semesterId) {
         return classMapper.selectByStaffIdAndSemesterId(staffId, semesterId);
     }
+
+    @Override
+    public Integer getNumberOfHomework(@NonNull final Integer id) {
+        return classMapper.countNumberOfHomeworkByClassId(id);
+    }
+
+    @Override
+    public List<StudentAverageGradesVo> getStudentAverageGrades(@NonNull final Integer classId, @NonNull final Integer numberOfHomework) {
+        return classMapper.selectStudentAverageGradeByClassId(classId, numberOfHomework);
+    }
+
+    @Override
+    public List<StudentCourse> areStudentsInThisClass(@NonNull final Integer classId,@NonNull final Integer semesterId, @NonNull final Set<Integer> studentIds) {
+        return classMapper.countByClassIdAndStudentId(classId, semesterId, studentIds);
+    }
+
+    @Override
+    public Optional<StudentCourse> isStudentInThisClass(@NonNull final Integer classId,@NonNull final Integer semesterId, @NonNull final Integer studentId) {
+        List<StudentCourse> studentCourse = classMapper.countByClassIdAndStudentId(classId, semesterId, Set.of(studentId));
+        return studentCourse.isEmpty() ? Optional.empty() : Optional.of(studentCourse.get(0));
+    }
+
 }

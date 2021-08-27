@@ -1,6 +1,5 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
-import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Semester;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
@@ -28,11 +27,8 @@ public class StudentClassBusinessImpl implements StudentClassBusiness {
 
     @Override
     public StudentsOfTheClass getStudentsOfTheClass(@NonNull final Integer staffId, @NonNull final Integer classId) {
-        if(!classService.isClassExists(classId)){
-            throw new CustomExceptions(ErrorCode.CLASS_NON_EXISTS);
-        }
-        if(!classService.isClassMine(classId,staffId)){
-            throw new CustomExceptions(ErrorCode.CLASS_NOT_FOUND, "This class does not belong to this teacher");
+        if(!classService.isClassValid(classId,staffId, dateConfigService.getDate())){
+            throw new CustomExceptions(ErrorCode.CLASS_INVALID);
         }
 
         Integer weekNo = semesterService.getWeekNumber(dateConfigService.getDate());
@@ -48,11 +44,8 @@ public class StudentClassBusinessImpl implements StudentClassBusiness {
 
     @Override
     public List<AttendanceDto> getStudentsCurrentAttendance(@NonNull final Integer staffId, @NonNull final Integer classId) {
-        if(!classService.isClassExists(classId)){
-            throw new CustomExceptions(ErrorCode.CLASS_NON_EXISTS);
-        }
-        if(!classService.isClassMine(classId, staffId)){
-            throw new CustomExceptions(ErrorCode.CLASS_NOT_FOUND, "This class does not belong to this teacher");
+        if(!classService.isClassValid(classId, staffId, dateConfigService.getDate())){
+            throw new CustomExceptions(ErrorCode.CLASS_INVALID);
         }
         return studentClassService.getStudentsCurrentAttendance(classId);
     }

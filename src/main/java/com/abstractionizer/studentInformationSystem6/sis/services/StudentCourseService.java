@@ -7,4 +7,10 @@ import java.util.List;
 public interface StudentCourseService {
 
     void create(List<StudentCourse> studentCourses);
+
+    void updateFinalGrade(StudentCourse studentCourse);
+
+    void updateNumOfCompletedPreCourse(Integer studentId, Integer classId);
+
+    void updateCourseStatusIfPreCoursesCompleted(Integer studentId);
 }

@@ -3,11 +3,29 @@
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentCourseMapper">
 
     <insert id="insertBatch">
-        INSERT INTO student_course(id, student_id, course_id, num_of_pre_course)
+        INSERT INTO student_course(id, student_id, course_id, num_of_pre_course, status)
         VALUES
             <foreach collection="student_courses" item="item" separator=",">
-                (#{item.id}, #{item.studentId}, #{item.courseId}, #{item.numOfPreCourse})
+                (#{item.id}, #{item.studentId}, #{item.courseId}, #{item.numOfPreCourse}, #{item.status})
             </foreach>
     </insert>
+    <update id="updateFinalGrade">
+        UPDATE student_course
+        SET final_grade = #{student_course.finalGrade},
+            status = #{student_course.status}
+        WHERE id = #{student_course.id}
+    </update>
+    <update id="updateAndSelectByStudentIdAndClassId">
+        UPDATE student_course sc
+        JOIN pre_course pc ON pc.course_id = sc.course_id
+        JOIN class c ON c.course_id = pc.pre_course_id
+        SET num_of_completed_pre_course = num_of_completed_pre_course + 1
+        WHERE c.id = #{class_id} AND sc.student_id = #{student_id} AND sc.status = 0 AND c.status = 1
+    </update>
+    <update id="updateStatusByNumOfCompletedPreCourse">
+        UPDATE student_course
+        SET status = 1
+        WHERE student_id = #{student_id} AND num_of_pre_course = num_of_completed_pre_course AND status = 0;
+    </update>
 
 </mapper>

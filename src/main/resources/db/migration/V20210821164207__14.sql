@@ -1,0 +1,1 @@
+ALTER TABLE student_course ALTER status DROP DEFAULT;

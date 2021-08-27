@@ -1,0 +1,2 @@
+ALTER TABLE student_course MODIFY COLUMN status TINYINT UNSIGNED NOT NULL COMMENT '0 Invalid / 2 Valid / 3 In progress / 4 Failed / 5 Dropped';
+ALTER TABLE student_class DROP COLUMN homework_average_grade;

@@ -29,4 +29,22 @@ public class StudentCourseServiceImpl implements StudentCourseService {
             throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
         }
     }
+
+    @Override
+    public void updateFinalGrade(@NonNull final StudentCourse studentCourse) {
+        if(studentCourseMapper.updateFinalGrade(studentCourse) != 1){
+            log.error("Failed to update student course final grade: {}", studentCourse);
+            throw new CustomExceptions(ErrorCode.DATA_UPDATE_FAILED);
+        }
+    }
+
+    @Override
+    public void updateNumOfCompletedPreCourse(@NonNull final Integer studentId, @NonNull final Integer classId) {
+        studentCourseMapper.updateAndSelectByStudentIdAndClassId(studentId, classId);
+    }
+
+    @Override
+    public void updateCourseStatusIfPreCoursesCompleted(@NonNull final Integer studentId) {
+        studentCourseMapper.updateStatusByNumOfCompletedPreCourse(studentId);
+    }
 }

@@ -6,10 +6,17 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 @Repository
 public interface StudentCourseMapper extends BaseMapper<StudentCourse> {
 
     int insertBatch(@Param("student_courses")List<StudentCourse> studentCourses);
+
+    int updateFinalGrade(@Param("student_course") StudentCourse studentCourses);
+
+    void updateAndSelectByStudentIdAndClassId(@Param("student_id") Integer studentId, @Param("class_id") Integer classId);
+
+    void updateStatusByNumOfCompletedPreCourse(@Param("student_id") Integer studentId);
 }

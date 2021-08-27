@@ -42,6 +42,7 @@ public enum ErrorCode implements BaseError{
     COURSE_INCORRECT_HEAD(HttpStatus.FORBIDDEN, "10072", "This course does not belong to this head"),
     CLASS_NOT_FOUND(HttpStatus.FORBIDDEN, "10073", "This class does not belong to this head"),
     CLASS_NON_EXISTS(HttpStatus.NOT_FOUND, "10074", "This class id does not exist"),
+    CLASS_INVALID(HttpStatus.BAD_REQUEST, "10075", "This class is not valid"),
 
     SEMESTER_EXISTS(HttpStatus.BAD_REQUEST, "10092", "Semester has been created"),
     SEMESTER_NON_EXISTS(HttpStatus.BAD_REQUEST, "10093", "Semester does not exist"),
@@ -58,7 +59,9 @@ public enum ErrorCode implements BaseError{
     ATTENDANCE_FORBIDDEN(HttpStatus.FORBIDDEN, "10401", "Attendance can only be taken after the class is ended"),
 
     HOMEWORK_EXISTS(HttpStatus.CONFLICT, "10401", "Homework already exists"),
-    HOMEWORK_INVALID_DEADLINE(HttpStatus.CONFLICT, "10402", "Invalid homework deadline")
+    HOMEWORK_INVALID_DEADLINE(HttpStatus.CONFLICT, "10402", "Invalid homework deadline"),
+
+    Course_Graded(HttpStatus.BAD_REQUEST, "10501", "This course has been graded"),
     ;
 
     private final HttpStatus httpStatus;

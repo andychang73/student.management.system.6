@@ -1,5 +1,6 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
+import com.abstractionizer.studentInformationSystem6.constants.ProjectConstant;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentMajor;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
@@ -56,7 +57,8 @@ public class StudentMajorBusinessImpl implements StudentMajorBusiness {
                 .map(d -> new StudentCourse()
                 .setStudentId(studentId)
                 .setCourseId(d.getCourseId())
-                .setNumOfPreCourse(d.getNumOfPreCourse()))
+                .setNumOfPreCourse(d.getNumOfPreCourse())
+                .setStatus(d.getNumOfPreCourse() > 0 ? ProjectConstant.StudentCourseStatus.INVALID : ProjectConstant.StudentCourseStatus.VALID))
                 .collect(Collectors.toList());
     }
 }
