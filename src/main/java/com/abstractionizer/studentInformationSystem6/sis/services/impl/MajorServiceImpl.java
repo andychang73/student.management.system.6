@@ -6,6 +6,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.dto.course.PreCourseCountDto;
 import com.abstractionizer.studentInformationSystem6.models.vo.major.MajorVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.majorCourseVo.MajorCourseVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.MajorService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -52,5 +53,10 @@ public class MajorServiceImpl implements MajorService {
     @Override
     public List<PreCourseCountDto> getPreCourseCount(@NonNull final Integer majorId) {
         return majorMapper.getNumOfPreCourse(majorId);
+    }
+
+    @Override
+    public List<MajorCourseVo> getAllMajorsAndCourses() {
+        return majorMapper.selectAllMajorAndCourses();
     }
 }

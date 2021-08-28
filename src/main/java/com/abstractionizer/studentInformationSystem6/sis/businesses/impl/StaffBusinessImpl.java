@@ -11,7 +11,7 @@ import com.abstractionizer.studentInformationSystem6.models.dto.user.UserLoginDt
 import com.abstractionizer.studentInformationSystem6.models.vo.user.SuccessfulLoginVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.user.teacher.TeacherVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StaffBusiness;
-import com.abstractionizer.studentInformationSystem6.sis.businesses.BaseBusinesses.UserBusiness;
+import com.abstractionizer.studentInformationSystem6.sis.businesses.BaseBusinesses.BaseUserBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.LoginService;
 import com.abstractionizer.studentInformationSystem6.sis.services.RoleService;
 import com.abstractionizer.studentInformationSystem6.sis.services.StaffService;
@@ -32,7 +32,7 @@ import static com.abstractionizer.studentInformationSystem6.constants.RedisConst
 
 @Slf4j
 @Service
-public class StaffBusinessImpl extends UserBusiness<Staff> implements StaffBusiness {
+public class StaffBusinessImpl extends BaseUserBusiness<Staff> implements StaffBusiness {
 
     private final StaffService staffService;
     private final RoleService roleService;
@@ -47,10 +47,10 @@ public class StaffBusinessImpl extends UserBusiness<Staff> implements StaffBusin
     }
 
     @Override
-    public SuccessfulLoginVo login(@NonNull UserLoginBo bo) {
+    public SuccessfulLoginVo login(@NonNull final UserLoginBo bo) {
         Staff staff = staffService.getStaff(bo.getUserId()).orElseThrow(() -> new CustomExceptions(ErrorCode.INVALID_CREDENTIALS));
 
-        final UserLoginDto dto = this.authenticate(bo.getPassword(), staff, staffService::freezeAccount, getStaffLoggedInKey(staff.getId()));
+        final UserLoginDto dto = this.authenticate(bo.getPassword(), staff, staffService::freezeAccount, getStaffLoggedInKey(staff.getId()), getStaffLoginFailureCountKey(staff.getId()));
 
         this.loginService.setUserLoginToken(dto.getToken(), dto.getUserInfo().setUserGroup(UserGroup.STAFF));
 
@@ -77,7 +77,7 @@ public class StaffBusinessImpl extends UserBusiness<Staff> implements StaffBusin
     }
 
     @Override
-    public void updateStaffInfo(@NonNull final Integer userId, @NonNull final UpdateUserInfo userInfo) {
+    public void updateUserInfo(@NonNull final Integer userId, @NonNull final UpdateUserInfo userInfo) {
         if(!staffService.isStaffExists(userId)){
             throw new CustomExceptions(ErrorCode.USER_NON_EXISTS);
         }

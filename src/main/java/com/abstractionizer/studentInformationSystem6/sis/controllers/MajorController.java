@@ -3,6 +3,7 @@ package com.abstractionizer.studentInformationSystem6.sis.controllers;
 import com.abstractionizer.studentInformationSystem6.models.bo.major.CreateMajorBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.major.MajorVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.majorCourseVo.MajorCourseVo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.MajorBusiness;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,10 @@ public class MajorController {
     @GetMapping
     public SuccessResponse<List<MajorVo>> getAllMajors(){
         return new SuccessResponse<>(majorBusiness.getAllMajors());
+    }
+
+    @GetMapping("/all")
+    public SuccessResponse<List<MajorCourseVo>> getAllMajorsAndCourses(){
+        return new SuccessResponse<>(majorBusiness.getAllMajorsAndCourse());
     }
 }

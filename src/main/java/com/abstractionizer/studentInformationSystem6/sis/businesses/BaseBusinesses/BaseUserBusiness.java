@@ -22,13 +22,17 @@ import static com.abstractionizer.studentInformationSystem6.constants.RedisConst
 
 @Slf4j
 @AllArgsConstructor
-public class UserBusiness<T extends User> {
+public class BaseUserBusiness<T extends User> {
 
     protected final LoginService loginService;
 
-    protected UserLoginDto authenticate(String enteredPassword, T user, Consumer<Integer> freezeAccount, String userLoggedInKey){
+    protected UserLoginDto authenticate(String enteredPassword, T user, Consumer<Integer> freezeAccount, String userLoggedInKey, String userLoginFailedKey){
+        if(loginService.isUserLoggedIn(userLoggedInKey)){
+            throw new CustomExceptions(ErrorCode.USER_LOGGED_IN);
+        }
+
         if(!loginService.authenticate(enteredPassword.trim(), user.getPassword())){
-            long loginFailedCount = loginService.loginFailedCount(getStaffLoginFailureCountKey(user.getId()));
+            long loginFailedCount = loginService.loginFailedCount(userLoginFailedKey);
             long loginAttemptLimit = 3;
             if(loginFailedCount >= loginAttemptLimit){
                 freezeAccount.accept(user.getId());
@@ -45,16 +49,13 @@ public class UserBusiness<T extends User> {
             throw new CustomExceptions(ErrorCode.ACCOUNT_FROZEN);
         }
 
-        if(loginService.isUserLoggedIn(getStaffLoggedInKey(user.getId()))){
-            throw new CustomExceptions(ErrorCode.USER_LOGGED_IN);
-        }
-
         String token = loginService.generateToken().orElseThrow(() -> new RuntimeException("Failed to generate token"));
 
         UserInfo userInfo = new UserInfo();
 
         BeanUtils.copyProperties(user, userInfo);
         loginService.setUserLoginId(userLoggedInKey);
+        loginService.deleteLoginFailedCount(userLoginFailedKey);
 
         return new UserLoginDto(token, userInfo);
     }
@@ -81,9 +82,9 @@ public class UserBusiness<T extends User> {
         updateUserInfo.accept(user);
     }
 
-    protected void logout(String token, String key){
+    protected void logout(String token, String userLoginIdKey){
         loginService.deleteUserInfoByToken(token);
-        loginService.deleteUserLoginId(key);
+        loginService.deleteUserLoginId(userLoginIdKey);
     }
 
     protected String generateDefaultPassword(@NonNull final Date birthday){

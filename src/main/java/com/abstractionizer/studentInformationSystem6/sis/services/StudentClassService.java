@@ -19,4 +19,6 @@ public interface StudentClassService {
     void updateCurrentAttendance(Integer classId, List<AttendanceDto> dto);
 
     List<AttendanceDto> getStudentsCurrentAttendance(Integer classId);
+
+    Float getAttendance(Integer studentId, Integer classId, Integer semesterId);
 }

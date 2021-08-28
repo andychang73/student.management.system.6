@@ -50,9 +50,9 @@ public class StaffController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_HEAD', 'ROLE_TEACHER')")
     @PutMapping
-    public SuccessResponse updateStaffIno(@RequestAttribute("Staff") UserInfo userInfo,
+    public SuccessResponse updateStaffInfo(@RequestAttribute("Staff") UserInfo userInfo,
                                           @RequestBody @Valid UpdateUserInfo updateUserInfo){
-        staffBusiness.updateStaffInfo(userInfo.getId(), updateUserInfo);
+        staffBusiness.updateUserInfo(userInfo.getId(), updateUserInfo);
         return new SuccessResponse();
     }
 

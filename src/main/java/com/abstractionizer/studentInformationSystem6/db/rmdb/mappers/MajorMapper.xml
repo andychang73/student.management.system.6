@@ -39,4 +39,22 @@
         LEFT JOIN pre_course pc ON pc.course_id = x.id
         GROUP BY x.id
     </select>
+
+    <resultMap id="MajorCourseVo" type="com.abstractionizer.studentInformationSystem6.models.vo.majorCourseVo.MajorCourseVo">
+        <result column="major_id" property="id" jdbcType="INTEGER"/>
+        <result column="major" property="major" jdbcType="VARCHAR"/>
+        <collection property="courses" ofType="com.abstractionizer.studentInformationSystem6.models.vo.course.CourseVo">
+            <result column="course_id" property="id" jdbcType="INTEGER"/>
+            <result column="course" property="course" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllMajorAndCourses" resultMap="MajorCourseVo">
+        SELECT m.id AS major_id, m.major, c.id AS course_id, c.course
+        FROM major m
+        JOIN major_course mc ON mc.major_id = m.id
+        JOIN course c ON c.id = mc.course_id
+    </select>
+
+
 </mapper>

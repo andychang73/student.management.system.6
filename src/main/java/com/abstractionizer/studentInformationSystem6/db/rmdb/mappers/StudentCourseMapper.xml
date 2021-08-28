@@ -9,9 +9,10 @@
                 (#{item.id}, #{item.studentId}, #{item.courseId}, #{item.numOfPreCourse}, #{item.status})
             </foreach>
     </insert>
-    <update id="updateFinalGrade">
+    <update id="updateFinalGradeAndFinalAttendance">
         UPDATE student_course
         SET final_grade = #{student_course.finalGrade},
+            final_attendance = #{student_course.finalAttendance},
             status = #{student_course.status}
         WHERE id = #{student_course.id}
     </update>
@@ -27,5 +28,23 @@
         SET status = 1
         WHERE student_id = #{student_id} AND num_of_pre_course = num_of_completed_pre_course AND status = 0;
     </update>
+
+    <resultMap id="StudentCourseVo" type="com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo">
+        <result column="year" property="year" jdbcType="INTEGER"/>
+        <result column="semester" property="semester" jdbcType="INTEGER"/>
+        <result column="course_id" property="courseId" jdbcType="INTEGER"/>
+        <result column="course" property="course" jdbcType="VARCHAR"/>
+        <result column="final_grade" property="grade" jdbcType="FLOAT"/>
+        <result column="final_attendance" property="attendance" jdbcType="FLOAT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectByStudentId" resultMap="StudentCourseVo">
+        SELECT s.year, s.semester, c.id AS course_id, c.course, sc.final_grade, sc.final_attendance, sc.status
+        FROM student_course sc
+        JOIN course c ON c.id = sc.course_d
+        LEFT JOIN semester s ON s.id = sc.semester_id
+        WHERE sc.student_id = #{student_id}
+    </select>
 
 </mapper>

@@ -10,6 +10,8 @@ public interface LoginService {
 
     Long loginFailedCount(String key);
 
+    void deleteLoginFailedCount(String key);
+
     boolean isUserLoggedIn(String key);
 
     Optional<String> generateToken();

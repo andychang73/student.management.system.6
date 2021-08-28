@@ -39,6 +39,11 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    public void deleteLoginFailedCount(@NonNull String userLoginFailedKey) {
+        redisUtil.deleteKey(userLoginFailedKey);
+    }
+
+    @Override
     public boolean isUserLoggedIn(@NonNull final String key) {
         return redisUtil.isKeyExists(key);
     }

@@ -31,8 +31,8 @@ public class StudentCourseServiceImpl implements StudentCourseService {
     }
 
     @Override
-    public void updateFinalGrade(@NonNull final StudentCourse studentCourse) {
-        if(studentCourseMapper.updateFinalGrade(studentCourse) != 1){
+    public void updateFinalGradeAndFinalAttendance(@NonNull final StudentCourse studentCourse) {
+        if(studentCourseMapper.updateFinalGradeAndFinalAttendance(studentCourse) != 1){
             log.error("Failed to update student course final grade: {}", studentCourse);
             throw new CustomExceptions(ErrorCode.DATA_UPDATE_FAILED);
         }

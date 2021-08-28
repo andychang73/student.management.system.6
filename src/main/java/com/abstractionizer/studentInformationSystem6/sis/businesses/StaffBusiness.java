@@ -7,19 +7,11 @@ import com.abstractionizer.studentInformationSystem6.models.vo.user.teacher.Teac
 
 import java.util.List;
 
-public interface StaffBusiness {
+public interface StaffBusiness extends UserBusiness{
 
     SuccessfulLoginVo login(UserLoginBo bo);
 
     List<TeacherVo> getMyTeachers(Integer headId);
-
-    void firstTimeChangePassword(FirstTimeChangePasswordBo bo);
-
-    void changePassword(Integer userId, ChangePasswordBo bo);
-
-    void updateStaffInfo(Integer userId, UpdateUserInfo userInfo);
-
-    void logout(String token, UserInfo userInfo);
 
     void createStaff(String creator, CreateStaffBo bo);
 }

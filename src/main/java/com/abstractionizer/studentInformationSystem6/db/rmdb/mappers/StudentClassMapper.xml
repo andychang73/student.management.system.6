@@ -50,6 +50,12 @@
         JOIN student s ON s.id = sc.student_id
         WHERE sc.class_id = #{class_id}
     </select>
+    <select id="selectAttendanceByStudentIdAndClassIdAndSemesterId" resultType="java.lang.Float">
+        SELECT attendance
+        FROM student_class sc
+        JOIN class c ON c.id = sc.class_id
+        WHERE sc.student_id = #{student_id} AND sc.class_id = #{class_id} AND c.semester_id = #{semester_id} AND c.status = 1
+    </select>
 
 
 </mapper>

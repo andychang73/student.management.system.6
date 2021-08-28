@@ -50,4 +50,9 @@ public class StudentClassServiceImpl implements StudentClassService {
     public List<AttendanceDto> getStudentsCurrentAttendance(@NonNull final Integer classId) {
         return studentClassMapper.selectAttendanceByClassId(classId);
     }
+
+    @Override
+    public Float getAttendance(@NonNull final Integer studentId, @NonNull final Integer classId, @NonNull final Integer semesterId) {
+        return studentClassMapper.selectAttendanceByStudentIdAndClassIdAndSemesterId(studentId, classId, semesterId);
+    }
 }

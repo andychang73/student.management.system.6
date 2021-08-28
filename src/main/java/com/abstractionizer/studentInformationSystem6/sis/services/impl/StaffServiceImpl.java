@@ -62,7 +62,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void firstTimeChangePassword(@NonNull final Integer userId, @NonNull final String password) {
         if(staffMapper.updateStaff(userId, password, null, null, null, null, AccountStatus.NOT_FIRST_LOGIN.getStatus(), null) != 1){
-            log.error("First time change password failed, id : {}", userId);
+            log.error("Staff First time change password failed, id : {}", userId);
             throw new CustomExceptions(ErrorCode.DATA_UPDATE_FAILED);
         }
     }
@@ -70,7 +70,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void changePassword(@NonNull final Integer userId, @NonNull final String password) {
         if(staffMapper.updateStaff(userId, password, null, null, null, null, null, null) != 1){
-            log.error("Change password failed, id : {}", userId);
+            log.error("Staff Change password failed, id : {}", userId);
             throw new CustomExceptions(ErrorCode.DATA_UPDATE_FAILED);
         }
     }

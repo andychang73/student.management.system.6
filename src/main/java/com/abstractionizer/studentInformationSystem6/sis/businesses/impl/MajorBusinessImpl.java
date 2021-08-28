@@ -6,6 +6,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.major.CreateMajorBo;
 import com.abstractionizer.studentInformationSystem6.models.vo.major.MajorVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.majorCourseVo.MajorCourseVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.MajorBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.CollegeService;
 import com.abstractionizer.studentInformationSystem6.sis.services.CourseService;
@@ -53,6 +54,11 @@ public class MajorBusinessImpl implements MajorBusiness {
     @Override
     public List<MajorVo> getAllMajors() {
         return majorService.getAllMajors();
+    }
+
+    @Override
+    public List<MajorCourseVo> getAllMajorsAndCourse() {
+        return majorService.getAllMajorsAndCourses();
     }
 
     private Set<MajorCourse> generateMajorCourses(String creator, Integer majorId, Set<Integer> courseIds){

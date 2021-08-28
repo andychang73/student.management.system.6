@@ -1,15 +1,13 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
 import com.abstractionizer.studentInformationSystem6.constants.ProjectConstant;
+import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentClass;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.studentCourse.GradingBo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentCourseBusiness;
-import com.abstractionizer.studentInformationSystem6.sis.services.ClassService;
-import com.abstractionizer.studentInformationSystem6.sis.services.DateConfigService;
-import com.abstractionizer.studentInformationSystem6.sis.services.SemesterService;
-import com.abstractionizer.studentInformationSystem6.sis.services.StudentCourseService;
+import com.abstractionizer.studentInformationSystem6.sis.services.*;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +22,7 @@ import java.util.Objects;
 public class StudentCourseBusinessImpl implements StudentCourseBusiness {
 
     private final StudentCourseService studentCourseService;
+    private final StudentClassService studentClassService;
     private final SemesterService semesterService;
     private final DateConfigService dateConfigService;
     private final ClassService classService;
@@ -35,7 +34,9 @@ public class StudentCourseBusinessImpl implements StudentCourseBusiness {
             throw new CustomExceptions(ErrorCode.SEMESTER_NOT_ENDED, "Can't give final grade until semester ends");
         }
 
-        StudentCourse studentCourse = classService.isStudentInThisClass(bo.getClassId(), semesterService.getCurrentSemester().getId(), bo.getStudentId())
+        Integer semesterId = semesterService.getCurrentSemester().getId();
+
+        StudentCourse studentCourse = classService.isStudentInThisClass(bo.getClassId(), semesterId, bo.getStudentId())
                 .orElseThrow(()-> new CustomExceptions(ErrorCode.STUDENT_NON_EXISTS));
 
         if(Objects.nonNull(studentCourse.getFinalGrade())){
@@ -43,8 +44,10 @@ public class StudentCourseBusinessImpl implements StudentCourseBusiness {
         }
 
         Float pass = 60F;
-        studentCourse.setFinalGrade(bo.getGrade()).setStatus(bo.getGrade() >= pass ? ProjectConstant.StudentCourseStatus.PASSED : ProjectConstant.StudentCourseStatus.FAILED);
-        studentCourseService.updateFinalGrade(studentCourse);
+        studentCourse.setFinalGrade(bo.getGrade())
+                .setFinalAttendance(studentClassService.getAttendance(bo.getStudentId(), bo.getClassId(), semesterId))
+                .setStatus(bo.getGrade() >= pass ? ProjectConstant.StudentCourseStatus.PASSED : ProjectConstant.StudentCourseStatus.FAILED);
+        studentCourseService.updateFinalGradeAndFinalAttendance(studentCourse);
 
         if(bo.getGrade() < pass){
             return;

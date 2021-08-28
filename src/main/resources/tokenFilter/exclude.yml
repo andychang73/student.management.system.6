@@ -2,3 +2,6 @@ exclude:
   path:
     - "/api/staff/login"
     - "/api/staff/firstTimeChangePassword"
+    - "/api/major/all"
+    - "/api/student/login"
+    - "/api/student/firstTimeChangePassword"

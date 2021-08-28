@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface StaffService {
+public interface StaffService extends UserService{
 
     Optional<Staff> getStaff(Integer id);
 
@@ -18,12 +18,6 @@ public interface StaffService {
     boolean isStaffExists(Integer id);
 
     boolean isTeacherWorkingForThisHeadOfCourse(Integer id, Integer reportTo);
-
-    void freezeAccount(Integer userId);
-
-    void firstTimeChangePassword(Integer userId, String password);
-
-    void changePassword(Integer userId, String password);
 
     void updateStaffInfo(Staff staff);
 }
