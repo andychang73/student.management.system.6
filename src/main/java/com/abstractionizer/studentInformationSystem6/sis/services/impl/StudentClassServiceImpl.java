@@ -5,6 +5,8 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentClas
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto;
+import com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentClass.StudentsOfTheClass;
 import com.abstractionizer.studentInformationSystem6.sis.services.StudentClassService;
 import lombok.AllArgsConstructor;
@@ -34,8 +36,16 @@ public class StudentClassServiceImpl implements StudentClassService {
     }
 
     @Override
-    public boolean areStudentsInTheClass(Integer classId, Set<Integer> studentIds) {
+    public boolean areStudentsInTheClass(@NonNull final Integer classId, @NonNull final Set<Integer> studentIds) {
+        if(studentIds.isEmpty()){
+            return false;
+        }
         return studentClassMapper.countByStudentIdAndClassId(classId, studentIds) == studentIds.size();
+    }
+
+    @Override
+    public boolean isStudentInTheClass(Integer classId, Integer studentId) {
+        return studentClassMapper.countByStudentIdAndClassId(classId, Set.of(studentId)) > 0;
     }
 
     @Override
@@ -54,5 +64,10 @@ public class StudentClassServiceImpl implements StudentClassService {
     @Override
     public Float getAttendance(@NonNull final Integer studentId, @NonNull final Integer classId, @NonNull final Integer semesterId) {
         return studentClassMapper.selectAttendanceByStudentIdAndClassIdAndSemesterId(studentId, classId, semesterId);
+    }
+
+    @Override
+    public List<ClassVo> getScheduleOfThisSemester(@NonNull final Integer studentId, @NonNull final Integer semesterId) {
+        return studentClassMapper.selectByStudentIdAndSemesterId(studentId, semesterId);
     }
 }

@@ -2,6 +2,7 @@ package com.abstractionizer.studentInformationSystem6.db.rmdb.mappers;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Classes;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
+import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
@@ -26,6 +27,8 @@ public interface ClassMapper extends BaseMapper<Classes> {
 
     ClassInfoVo selectByClassId(@Param("id") Integer id);
 
+    int countByClassIdAndSemesterId(@Param("id") Integer id, @Param("semester_id") Integer semesterId);
+
     int countByClassIdAndOrHeadId(@Param("id") Integer id, @Param("head_id") Integer headId);
 
     int countByClassIdAndStaffIdAndDate(@Param("id") Integer id, @Param("staff_id") Integer staffId, @Param("date") Date date);
@@ -36,6 +39,8 @@ public interface ClassMapper extends BaseMapper<Classes> {
 
     int countNumberOfHomeworkByClassId(@Param("id") Integer id);
 
-    List<StudentCourse> countByClassIdAndStudentId(@Param("id") Integer id, @Param("semester_id") Integer semesterId, @Param("student_ids") Set<Integer> studentIds);
+    List<StudentCourse> selectByClassIdAndStudentId(@Param("id") Integer id, @Param("semester_id") Integer semesterId, @Param("student_ids") Set<Integer> studentIds);
+
+    List<WeekNoAndGrade> selectHomeWorkGradesByClassIdAndStudentId(@Param("student_id") Integer id, @Param("id") Integer classId);
 
 }

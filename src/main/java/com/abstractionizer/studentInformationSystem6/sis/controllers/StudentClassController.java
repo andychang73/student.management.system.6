@@ -2,6 +2,7 @@ package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
 import com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentClass.StudentsOfTheClass;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentClassBusiness;
@@ -30,5 +31,11 @@ public class StudentClassController {
     public SuccessResponse<List<AttendanceDto>> getStudentsCurrentAttendance(@RequestAttribute("Staff") UserInfo userInfo,
                                                                              @PathVariable("classId") Integer classId){
         return new SuccessResponse<>(studentClassBusiness.getStudentsCurrentAttendance(userInfo.getId(), classId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @GetMapping
+    public SuccessResponse<List<ClassVo>> getScheduleOfThisSemester(@RequestAttribute("Student") UserInfo userInfo){
+        return new SuccessResponse<>(studentClassBusiness.getClassScheduleOfThisSemester(userInfo.getId()));
     }
 }

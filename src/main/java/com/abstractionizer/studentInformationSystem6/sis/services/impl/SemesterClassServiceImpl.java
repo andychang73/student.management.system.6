@@ -4,6 +4,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterCl
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.SemesterClassMapper;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
+import com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.SemesterClassService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -42,6 +43,11 @@ public class SemesterClassServiceImpl implements SemesterClassService {
     @Override
     public Date getClassEndTime(@NonNull final Integer id) {
         return semesterClassMapper.selectByClassId(id);
+    }
+
+    @Override
+    public List<AttendanceVo> getAttendanceOfTheClass(@NonNull final Integer studentId, @NonNull final Integer classId) {
+        return semesterClassMapper.selectByClassIdAndStudentId(studentId, classId);
     }
 
 }

@@ -2,6 +2,8 @@ package com.abstractionizer.studentInformationSystem6.sis.services;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass;
 import com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto;
+import com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentClass.StudentsOfTheClass;
 
 import java.util.List;
@@ -16,9 +18,13 @@ public interface StudentClassService {
     
     boolean areStudentsInTheClass(Integer classId, Set<Integer> studentIds);
 
+    boolean isStudentInTheClass(Integer classId, Integer studentId);
+
     void updateCurrentAttendance(Integer classId, List<AttendanceDto> dto);
 
     List<AttendanceDto> getStudentsCurrentAttendance(Integer classId);
 
     Float getAttendance(Integer studentId, Integer classId, Integer semesterId);
+
+    List<ClassVo> getScheduleOfThisSemester(Integer studentId, Integer semesterId);
 }

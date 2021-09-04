@@ -7,6 +7,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.enums.UserRole;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.classes.CreateClassBo;
+import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
 public class ClassBusinessImpl implements ClassBusiness {
 
     private final SemesterClassService semesterClassService;
+    private final StudentClassService studentClassService;
+    private final StudentService studentService;
     private final DateConfigService dateConfigService;
     private final SemesterService semesterService;
     private final UserRoleService userRoleService;
@@ -96,6 +99,20 @@ public class ClassBusinessImpl implements ClassBusiness {
     @Override
     public List<ClassVo> getMyClassesOfThisSemester(@NonNull final Integer staffId) {
         return classService.getMyClassesOfThisSemester(staffId, semesterService.getCurrentSemester().getId());
+    }
+
+    @Override
+    public List<WeekNoAndGrade> getAllHomeWorkGradesOfTheClass(@NonNull final Integer studentId, @NonNull final Integer classId) {
+        if(!studentService.isStudentIdExists(studentId)){
+            throw new CustomExceptions(ErrorCode.STUDENT_NON_EXISTS);
+        }
+        if(!classService.isClassValid(classId, semesterService.getCurrentSemester().getId())){
+            throw new CustomExceptions(ErrorCode.CLASS_INVALID);
+        }
+        if(!studentClassService.isStudentInTheClass(classId, studentId)){
+            throw new CustomExceptions(ErrorCode.STUDENT_NOT_IN_CLASS);
+        }
+        return classService.getAllHomeworkGradesFromThisClass(studentId, classId);
     }
 
     private List<SemesterClass> getSemesterClasses(List<ClassDateDto> classDates, Integer classId){

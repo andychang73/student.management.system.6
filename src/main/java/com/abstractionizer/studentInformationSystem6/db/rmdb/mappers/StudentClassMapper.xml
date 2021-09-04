@@ -57,5 +57,20 @@
         WHERE sc.student_id = #{student_id} AND sc.class_id = #{class_id} AND c.semester_id = #{semester_id} AND c.status = 1
     </select>
 
+    <resultMap id="ClassVo" type="com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo">
+        <id column="id" property="classId" jdbcType="INTEGER"/>
+        <result column="course" property="course" jdbcType="VARCHAR"/>
+        <result column="week_day" property="weekDay" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIME"/>
+        <result column="end_time" property="endTime" jdbcType="TIME"/>
+    </resultMap>
 
+    <select id="selectByStudentIdAndSemesterId" resultMap="ClassVo">
+        SELECT cl.id, cl.week_day, c.course, cl.start_time, cl.end_time
+        FROM student_class sc
+        JOIN class cl ON cl.id = sc.class_id
+        JOIN course c ON c.id = cl.course_id
+        WHERE sc.student_id = #{student_id} AND cl.semester_id = #{semester_id} AND sc.status = 1 AND cl.status = 1
+        ORDER BY week_day, start_time
+    </select>
 </mapper>

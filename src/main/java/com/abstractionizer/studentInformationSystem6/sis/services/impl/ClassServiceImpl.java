@@ -5,6 +5,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCou
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.ClassMapper;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
+import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
@@ -33,6 +34,11 @@ public class ClassServiceImpl implements ClassService {
             throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
         }
         return classes;
+    }
+
+    @Override
+    public boolean isClassValid(@NonNull final Integer id, @NonNull final Integer semesterId) {
+        return classMapper.countByClassIdAndSemesterId(id, semesterId) > 0;
     }
 
     @Override
@@ -82,13 +88,18 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public List<StudentCourse> areStudentsInThisClass(@NonNull final Integer classId,@NonNull final Integer semesterId, @NonNull final Set<Integer> studentIds) {
-        return classMapper.countByClassIdAndStudentId(classId, semesterId, studentIds);
+        return classMapper.selectByClassIdAndStudentId(classId, semesterId, studentIds);
     }
 
     @Override
     public Optional<StudentCourse> isStudentInThisClass(@NonNull final Integer classId,@NonNull final Integer semesterId, @NonNull final Integer studentId) {
-        List<StudentCourse> studentCourse = classMapper.countByClassIdAndStudentId(classId, semesterId, Set.of(studentId));
+        List<StudentCourse> studentCourse = classMapper.selectByClassIdAndStudentId(classId, semesterId, Set.of(studentId));
         return studentCourse.isEmpty() ? Optional.empty() : Optional.of(studentCourse.get(0));
+    }
+
+    @Override
+    public List<WeekNoAndGrade> getAllHomeworkGradesFromThisClass(@NonNull final Integer studentId, @NonNull final Integer classId) {
+        return classMapper.selectHomeWorkGradesByClassIdAndStudentId(studentId, classId);
     }
 
 }

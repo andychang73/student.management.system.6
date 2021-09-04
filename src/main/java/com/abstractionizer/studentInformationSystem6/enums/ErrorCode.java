@@ -22,6 +22,7 @@ public enum ErrorCode implements BaseError{
 
     STUDENT_NON_EXISTS(HttpStatus.BAD_REQUEST, "10030", "Student does not exist"),
     STUDENT_MAJOR_EXISTS(HttpStatus.INTERNAL_SERVER_ERROR, "10031", "Student has already selected this major"),
+    STUDENT_NOT_IN_CLASS(HttpStatus.BAD_REQUEST, "10041", "Student is not in this class"),
 
     TEACHER_WRONG_COURSE(HttpStatus.BAD_REQUEST, "10041", "This teacher does not teach this subject"),
 

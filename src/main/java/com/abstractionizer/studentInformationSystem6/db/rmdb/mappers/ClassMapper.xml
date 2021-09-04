@@ -99,7 +99,7 @@
         JOIN homework h ON h.semester_class_id = sc.id
         WHERE c.id = #{id}
     </select>
-    <select id="countByClassIdAndStudentId"
+    <select id="selectByClassIdAndStudentId"
             resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse">
         SELECT sc.*
         FROM class cl
@@ -109,6 +109,29 @@
         <foreach collection="student_ids" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </select>
+    <select id="countByClassIdAndSemesterId" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM class
+        WHERE id = #{id} AND semester_id = #{semester_id}
+    </select>
+    <select id="selectHomeWorkGradesByClassIdAndStudentId"
+            resultType="com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade">
+        SELECT x.week_no, y.grade
+        FROM
+            (
+             SELECT h.id, sc.week_no
+             FROM class c
+             JOIN semester_class sc ON sc.class_id = c.id
+             JOIN homework h ON h.semester_class_id = sc.id
+             WHERE c.id = #{id}
+            ) AS x
+        LEFT JOIN
+            (
+             SELECT homework_id, grade
+             FROM student_homework
+             WHERE student_id = #{student_id}
+            ) AS y ON x.id = y.homework_id
     </select>
 
 </mapper>

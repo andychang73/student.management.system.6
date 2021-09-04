@@ -2,6 +2,7 @@ package com.abstractionizer.studentInformationSystem6.sis.services;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Classes;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
+import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
@@ -16,6 +17,8 @@ import java.util.Set;
 public interface ClassService {
 
     Classes create(Classes classes);
+
+    boolean isClassValid(Integer id, Integer semesterId);
 
     boolean isAllowedCreateClass(Date date, Date semesterStartDate);
 
@@ -38,4 +41,6 @@ public interface ClassService {
     List<StudentCourse> areStudentsInThisClass(Integer classId, Integer semesterId, Set<Integer> studentIds);
 
     Optional<StudentCourse> isStudentInThisClass(Integer classId, Integer semesterId, Integer studentId);
+
+    List<WeekNoAndGrade> getAllHomeworkGradesFromThisClass(Integer studentId, Integer classId);
 }

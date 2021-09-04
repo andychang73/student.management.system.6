@@ -1,6 +1,7 @@
 package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
 import com.abstractionizer.studentInformationSystem6.models.bo.classes.CreateClassBo;
+import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
@@ -47,6 +48,13 @@ public class ClassController {
     @GetMapping
     public SuccessResponse<List<ClassVo>> getMyClassesOfThisSemester(@RequestAttribute("Staff") UserInfo userInfo){
         return new SuccessResponse<>(classBusiness.getMyClassesOfThisSemester(userInfo.getId()));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @GetMapping("/grades/{id}")
+    public SuccessResponse<List<WeekNoAndGrade>> getAllHomeworkGradesOfTheClass(@RequestAttribute("Student")UserInfo userInfo,
+                                                                                @PathVariable("id") Integer classId){
+        return new SuccessResponse<>(classBusiness.getAllHomeWorkGradesOfTheClass(userInfo.getId(), classId));
     }
 
 }

@@ -22,5 +22,23 @@
         FROM semester_class
         WHERE id = #{id}
     </select>
+    <select id="selectByClassIdAndStudentId"
+            resultType="com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo">
+        SELECT sc.id, sc.week_no, a.semester_class_id
+        FROM
+            (
+             SELECT id, week_no
+             FROM semester_class
+             WHERE class_id = #{class_id}
+            ) AS sc
+        LEFT JOIN
+            (
+             SELECT semester_class_id
+             FROM attendance
+             WHERE student_id = #{student_id} AND status = 1
+            ) AS a ON a.semester_class_id = sc.id
+        ORDER BY sc.id
+    </select>
+
 
 </mapper>

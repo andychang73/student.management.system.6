@@ -42,7 +42,7 @@
     <select id="selectByStudentId" resultMap="StudentCourseVo">
         SELECT s.year, s.semester, c.id AS course_id, c.course, sc.final_grade, sc.final_attendance, sc.status
         FROM student_course sc
-        JOIN course c ON c.id = sc.course_d
+        JOIN course c ON c.id = sc.course_id
         LEFT JOIN semester s ON s.id = sc.semester_id
         WHERE sc.student_id = #{student_id}
     </select>

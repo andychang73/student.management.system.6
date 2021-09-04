@@ -1,6 +1,7 @@
 package com.abstractionizer.studentInformationSystem6.sis.services;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass;
+import com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo;
 
 import java.util.Date;
 import java.util.List;
@@ -15,4 +16,5 @@ public interface SemesterClassService {
 
     Date getClassEndTime(Integer id);
 
+    List<AttendanceVo> getAttendanceOfTheClass(Integer studentId, Integer classId);
 }

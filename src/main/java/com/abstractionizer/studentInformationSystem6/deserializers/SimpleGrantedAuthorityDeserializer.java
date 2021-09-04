@@ -1,4 +1,4 @@
-package com.abstractionizer.studentInformationSystem6.serializers;
+package com.abstractionizer.studentInformationSystem6.deserializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

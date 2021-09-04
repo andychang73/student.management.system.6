@@ -2,6 +2,8 @@ package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
 import com.abstractionizer.studentInformationSystem6.models.bo.homework.CreateHomeworkBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
+import com.abstractionizer.studentInformationSystem6.models.vo.homework.HomeworkDto2;
+import com.abstractionizer.studentInformationSystem6.models.vo.homework.HomeworkVo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.HomeworkBusiness;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -23,5 +26,12 @@ public class HomeworkController {
                                   @RequestBody @Valid CreateHomeworkBo bo){
         homeworkBusiness.create(userInfo.getId(), bo);
         return new SuccessResponse();
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @GetMapping("/{id}")
+    public SuccessResponse<List<HomeworkVo>> getHomeworks(@RequestAttribute("Student") UserInfo userInfo,
+                                                          @PathVariable("id") Integer classId){
+        return new SuccessResponse<>(homeworkBusiness.getValidHomeworks(userInfo.getId(), classId));
     }
 }

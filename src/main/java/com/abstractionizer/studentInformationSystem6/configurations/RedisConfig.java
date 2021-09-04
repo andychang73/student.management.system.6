@@ -1,6 +1,6 @@
 package com.abstractionizer.studentInformationSystem6.configurations;
 
-import com.abstractionizer.studentInformationSystem6.serializers.SimpleGrantedAuthorityDeserializer;
+import com.abstractionizer.studentInformationSystem6.deserializers.SimpleGrantedAuthorityDeserializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
