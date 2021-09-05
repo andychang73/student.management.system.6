@@ -5,6 +5,7 @@ import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.ClassBusiness;
@@ -55,6 +56,13 @@ public class ClassController {
     public SuccessResponse<List<WeekNoAndGrade>> getAllHomeworkGradesOfTheClass(@RequestAttribute("Student")UserInfo userInfo,
                                                                                 @PathVariable("id") Integer classId){
         return new SuccessResponse<>(classBusiness.getAllHomeWorkGradesOfTheClass(userInfo.getId(), classId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @GetMapping("/available/course/{id}")
+    public SuccessResponse<List<ClassWithoutCourseVo>> getAvailableClasses(@RequestAttribute("Student") UserInfo userInfo,
+                                                                           @PathVariable("id") Integer courseId){
+        return new SuccessResponse<>(classBusiness.getAvailableClasses(userInfo.getId(), courseId));
     }
 
 }

@@ -50,4 +50,9 @@ public class SemesterClassServiceImpl implements SemesterClassService {
         return semesterClassMapper.selectByClassIdAndStudentId(studentId, classId);
     }
 
+    @Override
+    public boolean isSemesterClassExists(@NonNull final Integer id) {
+        return semesterClassMapper.countById(id) > 0;
+    }
+
 }

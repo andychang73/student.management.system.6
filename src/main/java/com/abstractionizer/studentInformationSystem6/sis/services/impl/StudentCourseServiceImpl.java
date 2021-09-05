@@ -5,6 +5,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentCour
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentIdAndCourseInfoVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.StudentCourseService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -52,5 +53,15 @@ public class StudentCourseServiceImpl implements StudentCourseService {
     @Override
     public List<StudentCourseVo> getStudentCourseStatus(@NonNull final Integer studentId) {
         return studentCourseMapper.selectByStudentId(studentId);
+    }
+
+    @Override
+    public List<StudentIdAndCourseInfoVo> getAvailableCourses(@NonNull final Integer studentId) {
+        return studentCourseMapper.getByStudentId(studentId);
+    }
+
+    @Override
+    public boolean isCourseAvailable(@NonNull final Integer studentId, @NonNull final Integer courseId) {
+        return studentCourseMapper.countByStudentIdAndCourseId(studentId, courseId) > 0;
     }
 }

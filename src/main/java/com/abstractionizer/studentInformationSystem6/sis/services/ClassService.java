@@ -5,6 +5,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCou
 import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentHomework.StudentAverageGradesVo;
 
@@ -22,6 +23,8 @@ public interface ClassService {
 
     boolean isAllowedCreateClass(Date date, Date semesterStartDate);
 
+    boolean isAllowedToEnroll(Date now, Date semesterStartDate);
+
     boolean isTimeConflict(Integer teachId, Integer weekDay, Time startTime, Time endTime);
 
     ClassesOfTheWeekVo getClassesOfTheWeek(Integer semesterId, Integer courseId);
@@ -38,9 +41,15 @@ public interface ClassService {
 
     List<StudentAverageGradesVo> getStudentAverageGrades(Integer classId, Integer numberOfHomework);
 
-    List<StudentCourse> areStudentsInThisClass(Integer classId, Integer semesterId, Set<Integer> studentIds);
+    List<ClassWithoutCourseVo> getAvailableClasses(Integer courseId, Integer semesterId);
 
     Optional<StudentCourse> isStudentInThisClass(Integer classId, Integer semesterId, Integer studentId);
 
     List<WeekNoAndGrade> getAllHomeworkGradesFromThisClass(Integer studentId, Integer classId);
+
+    boolean enroll(Integer id, Integer version);
+
+    boolean hasEnrolled(Integer studentId, Integer classId);
+
+    Optional<Classes> getClass(Integer id);
 }

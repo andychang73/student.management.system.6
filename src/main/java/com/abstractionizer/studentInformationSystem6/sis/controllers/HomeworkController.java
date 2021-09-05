@@ -1,6 +1,7 @@
 package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
 import com.abstractionizer.studentInformationSystem6.models.bo.homework.CreateHomeworkBo;
+import com.abstractionizer.studentInformationSystem6.models.bo.homework.SubmitHomeworkBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.homework.HomeworkDto2;
 import com.abstractionizer.studentInformationSystem6.models.vo.homework.HomeworkVo;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -33,5 +35,12 @@ public class HomeworkController {
     public SuccessResponse<List<HomeworkVo>> getHomeworks(@RequestAttribute("Student") UserInfo userInfo,
                                                           @PathVariable("id") Integer classId){
         return new SuccessResponse<>(homeworkBusiness.getValidHomeworks(userInfo.getId(), classId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PostMapping("/submit")
+    public SuccessResponse<BigDecimal> submitHomework(@RequestAttribute("Student") UserInfo userInfo,
+                                                      @RequestBody @Valid SubmitHomeworkBo bo){
+        return new SuccessResponse<>(homeworkBusiness.submitHomework(userInfo.getId(), bo));
     }
 }

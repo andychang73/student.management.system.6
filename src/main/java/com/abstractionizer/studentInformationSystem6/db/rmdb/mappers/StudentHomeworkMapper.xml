@@ -30,4 +30,9 @@
             ) as y ON x.student_id = y.student_id AND x.id = y.homework_id
         ORDER BY x.student_id, x.week_no
     </select>
+    <select id="countByHomeworkIdAndStudentId" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM student_homework
+        WHERE homework_id = #{homework_id} AND student_id = #{student_id}
+    </select>
 </mapper>

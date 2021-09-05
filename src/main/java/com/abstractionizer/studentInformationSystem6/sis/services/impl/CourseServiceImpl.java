@@ -47,6 +47,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public boolean isCourseExists(Integer courseId) {
+        return courseMapper.countByCourseIdsOrCourseOrHeadId(Set.of(courseId), null, null) > 0;
+    }
+
+    @Override
     public boolean areCourseIdsExist(@NonNull final Set<Integer> courseIds) {
         if(courseIds.isEmpty()){
             return false;

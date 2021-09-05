@@ -3,6 +3,7 @@ package com.abstractionizer.studentInformationSystem6.sis.controllers;
 import com.abstractionizer.studentInformationSystem6.models.bo.studentCourse.GradingBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentIdAndCourseInfoVo;
 import com.abstractionizer.studentInformationSystem6.responses.SuccessResponse;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentCourseBusiness;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,11 @@ public class StudentCourseController {
     @GetMapping
     public SuccessResponse<List<StudentCourseVo>> getStudentCourseStatus(@RequestAttribute("Student") UserInfo userInfo){
         return new SuccessResponse<>(studentCourseBusiness.getStudentCourseStatus(userInfo.getId()));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @GetMapping("/available")
+    public SuccessResponse<List<StudentIdAndCourseInfoVo>> getAvailableCourses(@RequestAttribute("Student") UserInfo userInfo){
+        return new SuccessResponse<>(studentCourseBusiness.getAvailableCourses(userInfo.getId()));
     }
 }

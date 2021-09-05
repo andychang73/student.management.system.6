@@ -2,6 +2,7 @@ package com.abstractionizer.studentInformationSystem6.db.rmdb.mappers;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentIdAndCourseInfoVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,4 +23,8 @@ public interface StudentCourseMapper extends BaseMapper<StudentCourse> {
     void updateStatusByNumOfCompletedPreCourse(@Param("student_id") Integer studentId);
 
     List<StudentCourseVo> selectByStudentId(@Param("student_id") Integer studentId);
+
+    List<StudentIdAndCourseInfoVo> getByStudentId(@Param("student_id") Integer studentId);
+
+    int countByStudentIdAndCourseId(@Param("student_id") Integer studentId, @Param("course_id") Integer courseId);
 }

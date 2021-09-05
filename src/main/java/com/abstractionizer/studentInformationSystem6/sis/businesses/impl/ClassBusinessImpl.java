@@ -3,6 +3,7 @@ package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Classes;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Semester;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass;
+import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentClass;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.enums.UserRole;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
@@ -10,6 +11,7 @@ import com.abstractionizer.studentInformationSystem6.models.bo.classes.CreateCla
 import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.models.dto.semesterClass.ClassDateDto;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 public class ClassBusinessImpl implements ClassBusiness {
 
     private final SemesterClassService semesterClassService;
+    private final StudentCourseService studentCourseService;
     private final StudentClassService studentClassService;
     private final StudentService studentService;
     private final DateConfigService dateConfigService;
@@ -79,7 +82,7 @@ public class ClassBusinessImpl implements ClassBusiness {
 
     @Override
     public ClassesOfTheWeekVo getClassesOfTheWeek(@NonNull final Integer headId, @NonNull final Integer courseId) {
-        if(!courseService.areCourseIdsExist(Set.of(courseId))){
+        if(!courseService.isCourseExists(courseId)){
             throw new CustomExceptions(ErrorCode.COURSE_NON_EXISTS);
         }
         if(!courseService.isMyCourse(headId, courseId)){
@@ -112,8 +115,33 @@ public class ClassBusinessImpl implements ClassBusiness {
         if(!studentClassService.isStudentInTheClass(classId, studentId)){
             throw new CustomExceptions(ErrorCode.STUDENT_NOT_IN_CLASS);
         }
+
         return classService.getAllHomeworkGradesFromThisClass(studentId, classId);
     }
+
+    @Override
+    public List<ClassWithoutCourseVo> getAvailableClasses(@NonNull final Integer studentId, @NonNull final Integer courseId) {
+        if(!studentService.isStudentIdExists(studentId)){
+            throw new CustomExceptions(ErrorCode.STUDENT_NON_EXISTS);
+        }
+        if(!courseService.isCourseExists(courseId)){
+            throw new CustomExceptions(ErrorCode.COURSE_NON_EXISTS);
+        }
+        if(!studentCourseService.isCourseAvailable(studentId, courseId)){
+            throw new CustomExceptions(ErrorCode.COURSE_UNAVAILABLE);
+        }
+
+        Semester semester = semesterService.getCurrentSemester();
+        if(semester.getEndDate().before(dateConfigService.getDate())){
+            throw new CustomExceptions(ErrorCode.INVALID_SEMESTER, "New semester has not yet been created, please contact admin");
+        }
+        if(!classService.isAllowedToEnroll(dateConfigService.getDate(), semester.getStartDate())){
+            throw new CustomExceptions(ErrorCode.CLASS_ENROLLMENT_NOT_ALLOWED);
+        }
+
+        return classService.getAvailableClasses(courseId, semesterService.getCurrentSemester().getId());
+    }
+
 
     private List<SemesterClass> getSemesterClasses(List<ClassDateDto> classDates, Integer classId){
         return classDates.stream()

@@ -1,12 +1,14 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
 import com.abstractionizer.studentInformationSystem6.constants.ProjectConstant;
+import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Semester;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentClass;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCourse;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.studentCourse.GradingBo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentIdAndCourseInfoVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentCourseBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.*;
 import lombok.AllArgsConstructor;
@@ -66,5 +68,22 @@ public class StudentCourseBusinessImpl implements StudentCourseBusiness {
             throw new CustomExceptions(ErrorCode.STUDENT_NON_EXISTS);
         }
         return studentCourseService.getStudentCourseStatus(studentId);
+    }
+
+    @Override
+    public List<StudentIdAndCourseInfoVo> getAvailableCourses(@NonNull final Integer studentId) {
+        if(!studentService.isStudentIdExists(studentId)){
+            throw new CustomExceptions(ErrorCode.STUDENT_NON_EXISTS);
+        }
+
+        Semester semester = semesterService.getCurrentSemester();
+        if(semester.getEndDate().before(dateConfigService.getDate())){
+            throw new CustomExceptions(ErrorCode.INVALID_SEMESTER, "New semester has not yet been created, please contact admin");
+        }
+        if(!classService.isAllowedToEnroll(dateConfigService.getDate(), semester.getStartDate())){
+            throw new CustomExceptions(ErrorCode.CLASS_ENROLLMENT_NOT_ALLOWED);
+        }
+
+        return studentCourseService.getAvailableCourses(studentId);
     }
 }

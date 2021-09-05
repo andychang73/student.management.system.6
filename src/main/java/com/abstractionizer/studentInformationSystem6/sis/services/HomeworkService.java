@@ -4,6 +4,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Homework;
 import com.abstractionizer.studentInformationSystem6.models.dto.homework.HomeworkDto;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface HomeworkService {
@@ -13,4 +14,6 @@ public interface HomeworkService {
     boolean isHomeworkExists(Integer semesterClassId);
 
     List<HomeworkDto> getValidHomeworks(Integer classId, Date now);
+
+    Optional<Homework> getHomework(Integer semesterClassId);
 }

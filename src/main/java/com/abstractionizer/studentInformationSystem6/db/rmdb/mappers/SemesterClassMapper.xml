@@ -39,6 +39,11 @@
             ) AS a ON a.semester_class_id = sc.id
         ORDER BY sc.id
     </select>
+    <select id="countById" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM semester_class
+        WHERE id = #{id}
+    </select>
 
 
 </mapper>

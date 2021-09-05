@@ -5,6 +5,7 @@ import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentCou
 import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentHomework.StudentAverageGradesVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -43,4 +44,11 @@ public interface ClassMapper extends BaseMapper<Classes> {
 
     List<WeekNoAndGrade> selectHomeWorkGradesByClassIdAndStudentId(@Param("student_id") Integer id, @Param("id") Integer classId);
 
+    List<ClassWithoutCourseVo> selectByCourseIdAndSemesterId(@Param("course_id") Integer courseId, @Param("semester_id") Integer semester_id);
+
+    int updateNumOfStudentEnrolled(@Param("id") Integer id, @Param("version") Integer version);
+
+    Classes getById(@Param("id") Integer id);
+
+    int countByCourseIdAndStudentId(@Param("student_id") Integer studentId, @Param("id") Integer id);
 }

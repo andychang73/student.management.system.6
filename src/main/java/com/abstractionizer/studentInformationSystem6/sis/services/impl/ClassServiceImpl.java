@@ -8,6 +8,7 @@ import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions
 import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentHomework.StudentAverageGradesVo;
 import com.abstractionizer.studentInformationSystem6.sis.services.ClassService;
@@ -44,6 +45,11 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public boolean isAllowedCreateClass(@NonNull final Date now, @NonNull final Date semesterStartDate) {
         return !now.before(DateUtil.adjustDate(semesterStartDate, -30)) && !now.after(DateUtil.adjustDate(semesterStartDate, -15));
+    }
+
+    @Override
+    public boolean isAllowedToEnroll(@NonNull final Date now, @NonNull final Date semesterStartDate) {
+        return !now.before(DateUtil.adjustDate(semesterStartDate, -15)) && !now.after(DateUtil.adjustDate(semesterStartDate, -1));
     }
 
     @Override
@@ -87,8 +93,8 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public List<StudentCourse> areStudentsInThisClass(@NonNull final Integer classId,@NonNull final Integer semesterId, @NonNull final Set<Integer> studentIds) {
-        return classMapper.selectByClassIdAndStudentId(classId, semesterId, studentIds);
+    public List<ClassWithoutCourseVo> getAvailableClasses(@NonNull final Integer courseId, @NonNull final Integer semesterId) {
+        return classMapper.selectByCourseIdAndSemesterId(courseId, semesterId);
     }
 
     @Override
@@ -100,6 +106,21 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public List<WeekNoAndGrade> getAllHomeworkGradesFromThisClass(@NonNull final Integer studentId, @NonNull final Integer classId) {
         return classMapper.selectHomeWorkGradesByClassIdAndStudentId(studentId, classId);
+    }
+
+    @Override
+    public boolean enroll(@NonNull final Integer id, @NonNull final Integer version) {
+        return classMapper.updateNumOfStudentEnrolled(id, version) == 1;
+    }
+
+    @Override
+    public boolean hasEnrolled(@NonNull final Integer studentId, @NonNull final Integer courseId) {
+        return classMapper.countByCourseIdAndStudentId(studentId, courseId) > 0;
+    }
+
+    @Override
+    public Optional<Classes> getClass(@NonNull final Integer id) {
+        return Optional.ofNullable(classMapper.getById(id));
     }
 
 }

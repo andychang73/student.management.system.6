@@ -1,11 +1,11 @@
 package com.abstractionizer.studentInformationSystem6.sis.services.impl;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass;
+import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.StudentClass;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.StudentClassMapper;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto;
-import com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentClass.StudentsOfTheClass;
 import com.abstractionizer.studentInformationSystem6.sis.services.StudentClassService;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,6 +23,14 @@ import java.util.Set;
 public class StudentClassServiceImpl implements StudentClassService {
 
     private final StudentClassMapper studentClassMapper;
+
+    @Override
+    public void create(@NonNull final StudentClass studentClass) {
+        if(studentClassMapper.insert(studentClass) != 1){
+            log.info("Failed to create student class: {}", studentClass);
+            throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);
+        }
+    }
 
     @Override
     public Optional<SemesterClass> getSemesterClass(@NonNull final Integer classId, @NonNull final Integer weekNo) {

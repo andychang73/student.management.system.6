@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.abstractionizer.studentInformationSystem6.db.rmdb.mappers.ClassMapper">
+    <update id="updateNumOfStudentEnrolled">
+        UPDATE class
+        SET num_of_student_enrolled = num_of_student_enrolled + 1,
+            version = version + 1
+        WHERE id = #{id} AND version = #{version}
+    </update>
 
     <select id="countByStaffIdAndStartTimeAndEndTime" resultType="java.lang.Integer">
         SELECT COUNT(id)
@@ -132,6 +138,28 @@
              FROM student_homework
              WHERE student_id = #{student_id}
             ) AS y ON x.id = y.homework_id
+    </select>
+    <select id="selectByCourseIdAndSemesterId"
+            resultType="com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo">
+        SELECT id, week_day, start_time, end_time, maximum, num_of_student_enrolled
+        FROM class
+        WHERE course_id = #{course_id} AND semester_id = #{semester_id} AND status = 1 AND num_of_student_enrolled &lt; maximum
+    </select>
+    <select id="getById" resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Classes">
+        SELECT *
+        FROM class
+        WHERE id = #{id} AND num_of_student_enrolled &lt; maximum
+    </select>
+    <select id="countByCourseIdAndStudentId" resultType="java.lang.Integer">
+        SELECT COUNT(sc.id)
+        FROM
+            (
+             SELECT id
+             FROM class
+             WHERE course_id = (SELECT course_id FROM class WHERE id = #{id})
+            ) AS x
+        JOIN student_class sc ON x.id = sc.class_id
+        WHERE sc.student_id = #{student_id} AND sc.status = 1
     </select>
 
 </mapper>

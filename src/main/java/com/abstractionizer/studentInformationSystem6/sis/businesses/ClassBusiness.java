@@ -4,6 +4,7 @@ import com.abstractionizer.studentInformationSystem6.models.bo.classes.CreateCla
 import com.abstractionizer.studentInformationSystem6.models.dto.studentHomework.WeekNoAndGrade;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassInfoVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
+import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassWithoutCourseVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassesOfTheWeekVo;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 
@@ -20,4 +21,6 @@ public interface ClassBusiness {
     List<ClassVo> getMyClassesOfThisSemester(Integer staffId);
 
     List<WeekNoAndGrade> getAllHomeWorkGradesOfTheClass(Integer studentId, Integer classId);
+
+    List<ClassWithoutCourseVo> getAvailableClasses(Integer studentId, Integer courseId);
 }

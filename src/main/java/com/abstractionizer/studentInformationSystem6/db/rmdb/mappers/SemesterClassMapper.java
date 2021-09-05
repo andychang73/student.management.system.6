@@ -22,4 +22,6 @@ public interface SemesterClassMapper extends BaseMapper<SemesterClass> {
     Date selectByClassId(@Param("id") Integer id);
 
     List<AttendanceVo> selectByClassIdAndStudentId(@Param("student_id") Integer studentId, @Param("class_id") Integer classId);
+
+    int countById(@Param("id") Integer id);
 }

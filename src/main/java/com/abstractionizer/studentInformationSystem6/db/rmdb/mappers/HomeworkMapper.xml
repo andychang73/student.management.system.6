@@ -16,8 +16,8 @@
         JOIN class c ON c.id = sc.class_id
         WHERE c.id = #{class_id} AND deadline > #{now} AND h.status = 1
     </select>
-    <select id="selectAnswersBySemesterClassIdString" resultType="java.lang.String">
-        SELECT answers
+    <select id="selectAnswersBySemesterClassId" resultType="com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Homework">
+        SELECT *
         FROM homework
         WHERE semester_class_id = #{semester_class_id}
     </select>

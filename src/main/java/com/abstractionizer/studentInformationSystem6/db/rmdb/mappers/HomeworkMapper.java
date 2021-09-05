@@ -18,5 +18,5 @@ public interface HomeworkMapper extends BaseMapper<Homework> {
 
     List<HomeworkDto> selectHomeworksByClassIdAndDeadline(@Param("class_id") Integer classId, @Param("now") Date now);
 
-    String selectAnswersBySemesterClassIdString(@Param("semester_class_id") Integer semesterClassId);
+    Homework selectAnswersBySemesterClassId(@Param("semester_class_id") Integer semesterClassId);
 }

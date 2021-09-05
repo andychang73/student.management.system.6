@@ -46,5 +46,17 @@
         LEFT JOIN semester s ON s.id = sc.semester_id
         WHERE sc.student_id = #{student_id}
     </select>
+    <select id="getByStudentId"
+            resultType="com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentIdAndCourseInfoVo">
+        SELECT sc.student_id, sc.course_id, c.course
+        FROM student_course sc
+        JOIN course c ON c.id = sc.course_id
+        WHERE sc.student_id = #{student_id} AND sc.status = 1
+    </select>
+    <select id="countByStudentIdAndCourseId" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM student_course
+        WHERE student_id = #{student_id} AND course_id = #{course_id} AND status = 1
+    </select>
 
 </mapper>

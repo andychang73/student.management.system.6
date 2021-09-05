@@ -15,6 +15,8 @@ public interface CourseService {
 
     boolean isCourseExists(String course);
 
+    boolean isCourseExists(Integer courseId);
+
     boolean areCourseIdsExist(Set<Integer> courseIds);
 
     boolean isMyCourse(Integer headId, Integer courseId);

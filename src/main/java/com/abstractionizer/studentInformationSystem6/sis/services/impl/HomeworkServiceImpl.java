@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -38,5 +39,10 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkDto> getValidHomeworks(@NonNull final Integer classId, @NonNull final Date now) {
         return homeworkMapper.selectHomeworksByClassIdAndDeadline(classId, now);
+    }
+
+    @Override
+    public Optional<Homework> getHomework(@NonNull final Integer semesterClassId) {
+        return Optional.ofNullable(homeworkMapper.selectAnswersBySemesterClassId(semesterClassId));
     }
 }

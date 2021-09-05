@@ -17,4 +17,6 @@ public interface SemesterClassService {
     Date getClassEndTime(Integer id);
 
     List<AttendanceVo> getAttendanceOfTheClass(Integer studentId, Integer classId);
+
+    boolean isSemesterClassExists(Integer id);
 }

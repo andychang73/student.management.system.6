@@ -17,4 +17,5 @@ public interface StudentHomeworkMapper extends BaseMapper<StudentHomework> {
 
     List<StudentWeeklyHomeworkGradeVo> selectByClassIdAndDeadLine(@Param("class_id") Integer classId, @Param("now") Date now);
 
+    int countByHomeworkIdAndStudentId(@Param("homework_id") Integer homeworkId, @Param("student_id") Integer studentId);
 }

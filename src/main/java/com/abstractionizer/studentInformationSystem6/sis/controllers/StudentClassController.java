@@ -1,5 +1,6 @@
 package com.abstractionizer.studentInformationSystem6.sis.controllers;
 
+import com.abstractionizer.studentInformationSystem6.models.bo.studentClass.EnrollBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto;
 import com.abstractionizer.studentInformationSystem6.models.dto.user.UserInfo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -37,5 +39,13 @@ public class StudentClassController {
     @GetMapping
     public SuccessResponse<List<ClassVo>> getScheduleOfThisSemester(@RequestAttribute("Student") UserInfo userInfo){
         return new SuccessResponse<>(studentClassBusiness.getClassScheduleOfThisSemester(userInfo.getId()));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PostMapping
+    public SuccessResponse enroll(@RequestAttribute("Student") UserInfo userInfo,
+                                  @RequestBody @Valid EnrollBo bo){
+        studentClassBusiness.enroll(userInfo.getId(), bo);
+        return new SuccessResponse();
     }
 }
