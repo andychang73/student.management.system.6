@@ -27,4 +27,6 @@ public interface StudentCourseMapper extends BaseMapper<StudentCourse> {
     List<StudentIdAndCourseInfoVo> getByStudentId(@Param("student_id") Integer studentId);
 
     int countByStudentIdAndCourseId(@Param("student_id") Integer studentId, @Param("course_id") Integer courseId);
+
+    int updateByStudentIdAndCourseId(@Param("student_id") Integer studentId, @Param("course_id") Integer courseId, @Param("status") Integer status);
 }

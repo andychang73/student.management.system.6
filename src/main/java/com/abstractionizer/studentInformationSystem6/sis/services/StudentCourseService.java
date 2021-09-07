@@ -21,4 +21,6 @@ public interface StudentCourseService {
     List<StudentIdAndCourseInfoVo> getAvailableCourses(Integer studentId);
 
     boolean isCourseAvailable(Integer studentId, Integer courseId);
+
+    void updateStudentCourseStatus(Integer studentId, Integer courseId, Integer status);
 }

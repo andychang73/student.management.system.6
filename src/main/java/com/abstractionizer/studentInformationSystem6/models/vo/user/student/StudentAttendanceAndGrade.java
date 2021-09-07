@@ -6,5 +6,4 @@ import lombok.Data;
 public class StudentAttendanceAndGrade {
     private String studentName;
     private Float attendance;
-    private Float homeworkAverageGrade;
 }

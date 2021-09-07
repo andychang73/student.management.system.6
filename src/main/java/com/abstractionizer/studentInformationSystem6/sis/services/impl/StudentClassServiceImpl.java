@@ -51,7 +51,7 @@ public class StudentClassServiceImpl implements StudentClassService {
     }
 
     @Override
-    public boolean isStudentInTheClass(Integer classId, Integer studentId) {
+    public boolean isStudentInTheClass(@NonNull final Integer classId, @NonNull final Integer studentId) {
         return studentClassMapper.countByStudentIdAndClassId(classId, Set.of(studentId)) > 0;
     }
 

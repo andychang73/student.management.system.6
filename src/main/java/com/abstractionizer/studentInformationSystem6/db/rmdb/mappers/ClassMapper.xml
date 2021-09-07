@@ -40,13 +40,12 @@
         <result column="staff_name" property="teacherName" jdbcType="VARCHAR"/>
         <collection property="students" ofType="com.abstractionizer.studentInformationSystem6.models.vo.user.student.StudentAttendanceAndGrade">
             <result column="student_name" property="studentName" jdbcType="VARCHAR"/>
-            <result column="homework_average_grade" property="homeworkAverageGrade" jdbcType="FLOAT"/>
             <result column="attendance" property="attendance" jdbcType="FLOAT"/>
         </collection>
     </resultMap>
 
     <select id="selectByClassId" resultMap="ClassInfoVo">
-        SELECT sf.username AS staff_name, st.username AS student_name, homework_average_grade, attendance
+        SELECT sf.username AS staff_name, st.username AS student_name, attendance
         FROM class c
         JOIN student_class sc ON sc.class_id = c.id
         JOIN staff sf ON sf.id = c.staff_id

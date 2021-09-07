@@ -2,6 +2,7 @@ package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Staff;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.UserRole;
+import com.abstractionizer.studentInformationSystem6.enums.AccountStatus;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.enums.UserGroup;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
@@ -49,6 +50,10 @@ public class StaffBusinessImpl extends BaseUserBusiness<Staff> implements StaffB
     @Override
     public SuccessfulLoginVo login(@NonNull final UserLoginBo bo) {
         Staff staff = staffService.getStaff(bo.getUserId()).orElseThrow(() -> new CustomExceptions(ErrorCode.INVALID_CREDENTIALS));
+
+        if(staff.getStatus().equals(AccountStatus.FROZEN.getStatus())){
+            throw new CustomExceptions(ErrorCode.ACCOUNT_FROZEN);
+        }
 
         final UserLoginDto dto = this.authenticate(bo.getPassword(), staff, staffService::freezeAccount, getStaffLoggedInKey(staff.getId()), getStaffLoginFailureCountKey(staff.getId()));
 

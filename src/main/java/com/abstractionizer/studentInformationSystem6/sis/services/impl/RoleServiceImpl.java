@@ -6,6 +6,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.sis.services.RoleService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,17 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
 
     @Override
-    public boolean areRoleIdsExist(Set<Integer> roleId) {
+    public boolean areRoleIdsExist(@NonNull final Set<Integer> roleId) {
         return roleMapper.countByRoleIdOrRole(roleId, null) == roleId.size();
     }
 
     @Override
-    public boolean isRoleExists(String role) {
+    public boolean isRoleExists(@NonNull final String role) {
         return roleMapper.countByRoleIdOrRole(null, role) > 0;
     }
 
     @Override
-    public Role create(Role role) {
+    public Role create(@NonNull final Role role) {
         if(roleMapper.insert(role) != 1){
             log.error("Role service create role failed");
             throw new CustomExceptions(ErrorCode.DATA_INSERT_FAILED);

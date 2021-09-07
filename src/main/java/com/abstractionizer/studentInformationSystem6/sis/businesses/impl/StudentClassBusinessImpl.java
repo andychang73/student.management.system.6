@@ -1,5 +1,6 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
+import com.abstractionizer.studentInformationSystem6.constants.ProjectConstant;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Classes;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Semester;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.SemesterClass;
@@ -8,10 +9,8 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.models.bo.studentClass.EnrollBo;
 import com.abstractionizer.studentInformationSystem6.models.dto.attendance.AttendanceDto;
-import com.abstractionizer.studentInformationSystem6.models.vo.attendance.AttendanceVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.classes.ClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.studentClass.StudentsOfTheClass;
-import com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo;
 import com.abstractionizer.studentInformationSystem6.sis.businesses.StudentClassBusiness;
 import com.abstractionizer.studentInformationSystem6.sis.services.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +27,7 @@ import java.util.List;
 public class StudentClassBusinessImpl implements StudentClassBusiness {
 
     private final StudentClassService studentClassService;
+    private final StudentCourseService studentCourseService;
     private final StudentService studentService;
     private final AttendanceService attendanceService;
     private final DateConfigService dateConfigService;
@@ -92,6 +92,7 @@ public class StudentClassBusinessImpl implements StudentClassBusiness {
         Classes classes = classService.getClass(bo.getClassId()).orElseThrow(() -> new CustomExceptions(ErrorCode.CLASS_UNAVAILABLE));
 
         enrollByClass(classes);
+        studentCourseService.updateStudentCourseStatus(studentId, classes.getCourseId(), ProjectConstant.StudentCourseStatus.IN_PROGRESS);
 
         studentClassService.create(new StudentClass()
                 .setClassId(bo.getClassId())

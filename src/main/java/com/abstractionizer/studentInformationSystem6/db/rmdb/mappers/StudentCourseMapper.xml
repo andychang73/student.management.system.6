@@ -28,6 +28,11 @@
         SET status = 1
         WHERE student_id = #{student_id} AND num_of_pre_course = num_of_completed_pre_course AND status = 0;
     </update>
+    <update id="updateByStudentIdAndCourseId">
+        UPDATE student_course
+        SET status = #{status}
+        WHERE student_id = #{student_id} AND course_id = #{course_id} AND status = 1
+    </update>
 
     <resultMap id="StudentCourseVo" type="com.abstractionizer.studentInformationSystem6.models.vo.studentCourse.StudentCourseVo">
         <result column="year" property="year" jdbcType="INTEGER"/>

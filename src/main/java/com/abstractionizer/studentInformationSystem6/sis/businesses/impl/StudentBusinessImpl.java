@@ -1,7 +1,7 @@
 package com.abstractionizer.studentInformationSystem6.sis.businesses.impl;
 
-import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Staff;
 import com.abstractionizer.studentInformationSystem6.db.rmdb.entities.Student;
+import com.abstractionizer.studentInformationSystem6.enums.AccountStatus;
 import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.enums.UserGroup;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
@@ -50,6 +50,10 @@ public class StudentBusinessImpl extends BaseUserBusiness<Student> implements St
     @Override
     public SuccessfulLoginVo login(@NonNull final UserLoginBo bo) {
         Student student = studentService.getStudent(bo.getUserId()).orElseThrow(() -> new CustomExceptions(ErrorCode.INVALID_CREDENTIALS));
+
+        if(student.getStatus().equals(AccountStatus.FROZEN.getStatus())){
+            throw new CustomExceptions(ErrorCode.ACCOUNT_FROZEN);
+        }
 
         final UserLoginDto dto = this.authenticate(bo.getPassword(), student, studentService::freezeAccount, getStudentLoggedInKey(student.getId()), getStudentLoginFailureCountKey(student.getId()));
 

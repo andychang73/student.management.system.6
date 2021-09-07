@@ -69,7 +69,6 @@ public enum ErrorCode implements BaseError{
     HOMEWORK_HAS_SUBMITTED(HttpStatus.CONFLICT, "10404", "Homework has been submitted"),
     HOMEWORK_DEADLINE(HttpStatus.INTERNAL_SERVER_ERROR, "10405", "Not allowed to submit homework after deadline"),
     INVALID_SUBMITTED_HOMEWORK(HttpStatus.BAD_REQUEST, "10406", "The number of submitted answers does not match"),
-    HOMEWORK_GRADED(HttpStatus.BAD_REQUEST, "10407", "Homework has been graded"),
 
     Course_Graded(HttpStatus.BAD_REQUEST, "10501", "This course has been graded"),
 

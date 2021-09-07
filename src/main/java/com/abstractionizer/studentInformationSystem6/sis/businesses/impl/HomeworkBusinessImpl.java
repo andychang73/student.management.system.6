@@ -106,7 +106,7 @@ public class HomeworkBusinessImpl implements HomeworkBusiness {
             throw new CustomExceptions(ErrorCode.HOMEWORK_DEADLINE);
         }
         if(studentHomeworkService.hasHomeworkBeenSubmitted(homework.getId(), studentId)){
-            throw new CustomExceptions(ErrorCode.HOMEWORK_GRADED);
+            throw new CustomExceptions(ErrorCode.HOMEWORK_HAS_SUBMITTED);
         }
 
         Map<String, Character> answers = new ObjectMapper().readValue(homework.getAnswers(), new TypeReference<>(){});

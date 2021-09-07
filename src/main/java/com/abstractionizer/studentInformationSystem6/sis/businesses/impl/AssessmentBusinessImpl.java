@@ -44,7 +44,12 @@ public class AssessmentBusinessImpl implements AssessmentBusiness {
             throw new CustomExceptions(ErrorCode.ASSESSED);
         }
 
-        Assessment assessment = new Assessment().setSemesterId(semester.getId()).setStaffId(bo.getStaffId()).setResult(bo.getResult()).setAssessedBy(head.getUsername());
+        Assessment assessment = new Assessment()
+                .setSemesterId(semester.getId())
+                .setStaffId(bo.getStaffId())
+                .setResult(bo.getResult())
+                .setAssessedBy(head.getUsername());
+
         assessmentService.create(assessment);
     }
 

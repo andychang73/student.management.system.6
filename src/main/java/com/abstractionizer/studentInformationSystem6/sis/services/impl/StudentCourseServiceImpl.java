@@ -64,4 +64,12 @@ public class StudentCourseServiceImpl implements StudentCourseService {
     public boolean isCourseAvailable(@NonNull final Integer studentId, @NonNull final Integer courseId) {
         return studentCourseMapper.countByStudentIdAndCourseId(studentId, courseId) > 0;
     }
+
+    @Override
+    public void updateStudentCourseStatus(@NonNull final Integer studentId, @NonNull final Integer courseId, @NonNull final Integer status) {
+        if(studentCourseMapper.updateByStudentIdAndCourseId(studentId, courseId, status) != 1){
+            log.error("Failed to update student course status");
+            throw new CustomExceptions(ErrorCode.DATA_UPDATE_FAILED);
+        }
+    }
 }

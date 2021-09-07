@@ -28,7 +28,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<TeacherVo> selectByReportTo(Integer reportTo) {
+    public List<TeacherVo> selectByReportTo(@NonNull final Integer reportTo) {
         return staffMapper.selectByReportTo(reportTo);
     }
 

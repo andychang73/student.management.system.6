@@ -1,6 +1,5 @@
 package com.abstractionizer.studentInformationSystem6.models.vo.studentClass;
 
-import com.abstractionizer.studentInformationSystem6.models.vo.semesterClass.SemesterClassVo;
 import com.abstractionizer.studentInformationSystem6.models.vo.user.student.StudentVo;
 import lombok.Data;
 

@@ -6,6 +6,7 @@ import com.abstractionizer.studentInformationSystem6.enums.ErrorCode;
 import com.abstractionizer.studentInformationSystem6.exceptions.CustomExceptions;
 import com.abstractionizer.studentInformationSystem6.sis.services.UserRoleService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,17 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleMapper userRoleMapper;
 
     @Override
-    public boolean areUserRoleExist(Integer userId, Set<Integer> roleIds) {
+    public boolean areUserRoleExist(@NonNull final Integer userId, @NonNull final Set<Integer> roleIds) {
         return userRoleMapper.countByUserIdAndRoleIds(userId, roleIds) == roleIds.size();
     }
 
     @Override
-    public boolean isUserMatchingRole(Integer userId, Integer roleId) {
+    public boolean isUserMatchingRole(@NonNull final Integer userId, @NonNull final Integer roleId) {
         return userRoleMapper.countByUserIdAndRoleIds(userId, Set.of(roleId)) > 0;
     }
 
     @Override
-    public void create(Set<UserRole> userRoles) {
+    public void create(@NonNull final Set<UserRole> userRoles) {
         if(userRoles.isEmpty()){
             return;
         }

@@ -41,7 +41,10 @@ public class CourseBusinessImpl implements CourseBusiness {
             throw new CustomExceptions(ErrorCode.USER_ROLE_UNMATCHED);
         }
 
-        Course course = courseService.create(new Course().setCourse(bo.getCourse()).setHeadId(bo.getHeadId()).setCreator(creator));
+        Course course = courseService.create(new Course()
+                .setCourse(bo.getCourse())
+                .setHeadId(bo.getHeadId())
+                .setCreator(creator));
 
         if(Objects.isNull(bo.getPreCourses()) || bo.getPreCourses().isEmpty()){
             return;
